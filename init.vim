@@ -2,9 +2,21 @@ call plug#begin()
 	Plug 'preservim/nerdtree'
 	Plug 'Mofiqul/vscode.nvim'
 	Plug 'OmniSharp/omnisharp-vim'
-	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'nvim-tree/nvim-web-devicons'
 	Plug 'romgrk/barbar.nvim'
+
+	" Plugin untuk LSP bawaan Neovim
+	Plug 'neovim/nvim-lspconfig'
+	Plug 'Hoffs/omnisharp-extended-lsp.nvim'
+	
+	" Untuk autocompletion
+	Plug 'hrsh7th/nvim-cmp'
+	Plug 'hrsh7th/cmp-nvim-lsp'
+	Plug 'hrsh7th/cmp-buffer'
+	Plug 'hrsh7th/cmp-path'
+	Plug 'L3MON4D3/LuaSnip'
+	Plug 'saadparwaiz1/cmp_luasnip'
+
 call plug#end()
 
 filetype on
@@ -48,35 +60,10 @@ nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 "=== NERD Tree ===!
 
-"=== COC autocompletion ===
-" Use tab for trigger completion and navigate to the next complete item
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ coc#expandableOrJumpable() ?
-      \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])<CR>" :
-      \ CheckBackspace() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" Confirm selection with Enter
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
-
-" Function to check if backspace is pressed
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <C-space> to manually trigger completion
-inoremap <silent><expr> <C-Space> coc#refresh()
-
-" Use K to show documentation
-nnoremap <silent> K :call CocActionAsync('doHover')<CR>
-
-" Go to definition
-nmap <silent> gd <Plug>(coc-definition)
-" Rename symbol
-nmap <leader>rn <Plug>(coc-rename)
+"" Go to definition
+"nmap <silent> gd :<C-u>call CocActionAsync('jumpDefinition')<CR>
+"" Rename symbol
+"nmap <leader>rn <Plug>(coc-rename)
 
 "=== COC autocompletion ===!
 
@@ -139,7 +126,54 @@ nnoremap <silent> <Space>bw <Cmd>BufferOrderByWindowNumber<CR>
 " Other:
 " :BarbarEnable - enables barbar (enabled by default)
 " :BarbarDisable - very bad command, should never be usec
-"=== Barbar ===
+"=== Barbar ===!
+
+
+
+"=== Nvim LSP Omnisharp ===
+lua << EOF
+local lspconfig = require('lspconfig')
+
+-- Autocompletion
+local cmp = require'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'buffer' },
+  })
+}
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+lspconfig.omnisharp.setup {
+  cmd = { "/home/archimedes/.local/bin/omnisharp/run", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+  capabilities = capabilities,
+  enable_editorconfig_support = true,
+  enable_roslyn_analyzers = true,
+  organize_imports_on_format = true,
+}
+
+--require("omnisharp_extended").setup()
+
+EOF
+
+nnoremap <silent> gd <cmd>lua require('omnisharp_extended').lsp_definition()<CR>
+
+nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+"=== Nvim LSP Omnisharp ===!
+
+
 
 
 
