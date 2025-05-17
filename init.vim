@@ -18,15 +18,19 @@ call plug#begin()
 	Plug 'L3MON4D3/LuaSnip'
 	Plug 'saadparwaiz1/cmp_luasnip'
 
+	Plug 'numToStr/Comment.nvim'
+
 call plug#end()
 
 filetype on
 
 "=== General Configuration ===
+let mapleader=" "
 set number
 set relativenumber
 set shiftwidth=4
 set tabstop=4
+set expandtab
 set nowrap
 set modifiable
 set wildmenu
@@ -164,9 +168,15 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
   end
 
+
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', '<leader>fn', vim.lsp.buf.rename, opts)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+
+	--formating
+	vim.keymap.set('n', '<leader>fa', function()
+		vim.lsp.buf.format({ async = true })
+	end, { noremap = true, silent = true, buffer = bufnr})
 end
 
 
@@ -184,6 +194,13 @@ lspconfig.rust_analyzer.setup {
   capabilities = capabilities,
   on_attach = on_attach,
 }
+
+require('Comment').setup()
+vim.keymap.set('n', '<C-_>', function()
+  require('Comment.api').toggle.linewise.current()
+end, { noremap = true, silent = true })
+
+vim.keymap.set('v', '<C-_>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { noremap = true, silent = true })
 
 EOF
 "=== Nvim LSP Omnisharp ===!
