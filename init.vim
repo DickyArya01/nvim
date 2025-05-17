@@ -3,6 +3,8 @@ call plug#begin()
 	Plug 'Mofiqul/vscode.nvim'
 	Plug 'nvim-tree/nvim-web-devicons'
 	Plug 'romgrk/barbar.nvim'
+	Plug 'nvim-lua/plenary.nvim'
+	Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
 
 	" Plugin untuk LSP bawaan Neovim
 	Plug 'neovim/nvim-lspconfig'
@@ -183,11 +185,16 @@ lspconfig.rust_analyzer.setup {
   on_attach = on_attach,
 }
 
-
---require("omnisharp_extended").setup()
-
 EOF
 "=== Nvim LSP Omnisharp ===!
+
+"=== Telescope ===
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+"=== Telescope ===!
+
 
 
 
