@@ -3,7 +3,8 @@ call plug#begin()
 	Plug 'Mofiqul/vscode.nvim'
 	Plug 'OmniSharp/omnisharp-vim'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	"Plug 'dense-analysis/ale'
+	Plug 'nvim-tree/nvim-web-devicons'
+	Plug 'romgrk/barbar.nvim'
 call plug#end()
 
 filetype on
