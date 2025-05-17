@@ -1,7 +1,6 @@
 call plug#begin()
 	Plug 'preservim/nerdtree'
 	Plug 'Mofiqul/vscode.nvim'
-	Plug 'OmniSharp/omnisharp-vim'
 	Plug 'nvim-tree/nvim-web-devicons'
 	Plug 'romgrk/barbar.nvim'
 
@@ -154,23 +153,40 @@ cmp.setup {
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+local on_attach = function(client, bufnr)
+  local opts = { noremap=true, silent=true, buffer=bufnr }
+
+  if client.name == "omnisharp" then
+    vim.keymap.set('n', 'gd', require('omnisharp_extended').lsp_definition, opts)
+  else
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  end
+
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+end
+
+
 lspconfig.omnisharp.setup {
   cmd = { "/home/archimedes/.local/bin/omnisharp/run", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
   capabilities = capabilities,
+  on_attach = on_attach,
   enable_editorconfig_support = true,
   enable_roslyn_analyzers = true,
   organize_imports_on_format = true,
 }
 
+lspconfig.rust_analyzer.setup {
+  cmd = { "rust-analyzer" },
+  capabilities = capabilities,
+  on_attach = on_attach,
+}
+
+
 --require("omnisharp_extended").setup()
 
 EOF
-
-nnoremap <silent> gd <cmd>lua require('omnisharp_extended').lsp_definition()<CR>
-
-nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 "=== Nvim LSP Omnisharp ===!
 
 
