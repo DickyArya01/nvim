@@ -169,7 +169,7 @@ end
 
 
 lspconfig.omnisharp.setup {
-  cmd = { "/home/archimedes/.local/bin/omnisharp/run", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+  cmd = { os.getenv("HOME") .. "/.local/bin/omnisharp/run", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
   capabilities = capabilities,
   on_attach = on_attach,
   enable_editorconfig_support = true,
