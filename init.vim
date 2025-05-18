@@ -9,6 +9,7 @@ call plug#begin()
 	" Plugin untuk LSP bawaan Neovim
 	Plug 'neovim/nvim-lspconfig'
 	Plug 'Hoffs/omnisharp-extended-lsp.nvim'
+    Plug 'nvim-lualine/lualine.nvim'
 	
 	" Untuk autocompletion
 	Plug 'hrsh7th/nvim-cmp'
@@ -135,9 +136,61 @@ nnoremap <silent> <Space>bw <Cmd>BufferOrderByWindowNumber<CR>
 
 
 
-"=== Nvim LSP Omnisharp ===
+"=== Nvim LSP ===
 lua << EOF
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'auto',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    ignore_focus = {},
+    always_divide_middle = true,
+    always_show_tabline = true,
+    globalstatus = false,
+    refresh = {
+      statusline = 100,
+      tabline = 100,
+      winbar = 100,
+    }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
+
+
 local lspconfig = require('lspconfig')
+
+-- Setup diagnostics globally
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+})
 
 -- Autocompletion
 local cmp = require'cmp'
@@ -193,6 +246,13 @@ lspconfig.rust_analyzer.setup {
   cmd = { "rust-analyzer" },
   capabilities = capabilities,
   on_attach = on_attach,
+  settings = {
+    ["rust-analyzer"] = {
+      diagnostics = {
+        enable = true,
+      },
+    },
+  },
 }
 
 require('Comment').setup()
@@ -202,8 +262,15 @@ end, { noremap = true, silent = true })
 
 vim.keymap.set('v', '<C-_>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { noremap = true, silent = true })
 
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap=true, silent=true })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { noremap=true, silent=true })
+vim.keymap.set('n', '<leader>e', function()
+  local opts = { focusable = false, border = "rounded" }
+  vim.diagnostic.open_float(nil, opts)
+end, { noremap=true, silent=true })
+
 EOF
-"=== Nvim LSP Omnisharp ===!
+"=== Nvim LSP ===!
 
 "=== Telescope ===
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
