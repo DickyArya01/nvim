@@ -19,6 +19,7 @@ call plug#begin()
 	Plug 'L3MON4D3/LuaSnip'
 	Plug 'saadparwaiz1/cmp_luasnip'
 
+    Plug 'j-hui/fidget.nvim'
 	Plug 'numToStr/Comment.nvim'
 
 call plug#end()
@@ -138,6 +139,8 @@ nnoremap <silent> <Space>bw <Cmd>BufferOrderByWindowNumber<CR>
 
 "=== Nvim LSP ===
 lua << EOF
+require("fidget").setup {}
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -268,6 +271,7 @@ vim.keymap.set('n', '<leader>e', function()
   local opts = { focusable = false, border = "rounded" }
   vim.diagnostic.open_float(nil, opts)
 end, { noremap=true, silent=true })
+
 
 EOF
 "=== Nvim LSP ===!
