@@ -61,10 +61,13 @@ autocmd VimEnter * NERDTree
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
 
+let g:NERDTreeIgnore = ['\.git$', '\.pyc$', '__pycache__'] "ignored folders/files
+
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
+nnoremap <C-h> :let g:NERDTreeShowHidden=1 \| NERDTreeRefreshRoot<CR>
 "=== NERD Tree ===!
 
 "" Go to definition
@@ -107,7 +110,7 @@ nnoremap <silent>    <A-p> <Cmd>BufferPin<CR>
 " Close buffer
 nnoremap <silent>    <A-c> <Cmd>BufferClose<CR>
 " Restore buffer
-nnoremap <silent>    <A-s-c> <Cmd>BufferRestore<CR>
+nnoremap <silent>    <A-r> <Cmd>BufferRestore<CR>
 
 " Wipeout buffer
 "                          :BufferWipeout
@@ -257,6 +260,32 @@ lspconfig.rust_analyzer.setup {
     },
   },
 }
+
+lspconfig.clangd.setup {
+  cmd = { "clangd", "--background-index" },
+  capabilities = capabilities,
+  on_attach = on_attach,
+  filetypes = { "c", "cpp", "objc", "objcpp" },
+  root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+  -- Optional: clangd-specific settings
+  settings = {
+    clangd = {
+      -- Enable clang-tidy linting
+      clangTidy = true,
+      -- Optional: run clangd static analyzer
+      -- semanticHighlighting = true
+    }
+  }
+}
+
+-- Autoformat on save hanya untuk C & C++
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.cpp", "*.hpp", "*.c", "*.h" },
+  callback = function(args)
+    vim.lsp.buf.format({ async = false, bufnr = args.buf })
+  end,
+})
+
 
 require('Comment').setup()
 vim.keymap.set('n', '<C-_>', function()
