@@ -130,6 +130,9 @@ Konfigurasi ini menggunakan [vim-plug](https://github.com/junegunn/vim-plug). Pl
 * Go to definition:
 
   * `gd` → Lompat ke definisi
+* Find Reference:
+
+  * `fr` → Menampilkan semua lokasi di mana fungsi/variabel tersebut digunakan
 * Hover:
 
   * `K` → Tampilkan dokumentasi simbol
