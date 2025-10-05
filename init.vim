@@ -142,6 +142,9 @@ nnoremap <silent> <Space>bw <Cmd>BufferOrderByWindowNumber<CR>
 
 "=== Nvim LSP ===
 lua << EOF
+
+vim.lsp.semantic_tokens.enable = true
+
 require("fidget").setup {}
 
 require('lualine').setup {
@@ -227,6 +230,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
   end
 
+  vim.keymap.set('n', 'fr', vim.lsp.buf.references, opts)
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', '<leader>fn', vim.lsp.buf.rename, opts)
@@ -276,6 +280,20 @@ lspconfig.clangd.setup {
       -- semanticHighlighting = true
     }
   }
+}
+
+lspconfig.pyright.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        diagnosticMode = "workspace",
+      },
+    },
+  },
 }
 
 -- Autoformat on save hanya untuk C & C++
