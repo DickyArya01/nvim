@@ -9,7 +9,7 @@ call plug#begin()
 	" Plugin untuk LSP bawaan Neovim
 	Plug 'neovim/nvim-lspconfig'
 	Plug 'Hoffs/omnisharp-extended-lsp.nvim'
-    Plug 'nvim-lualine/lualine.nvim'
+  Plug 'nvim-lualine/lualine.nvim'
 	
 	" Untuk autocompletion
 	Plug 'hrsh7th/nvim-cmp'
@@ -19,7 +19,7 @@ call plug#begin()
 	Plug 'L3MON4D3/LuaSnip'
 	Plug 'saadparwaiz1/cmp_luasnip'
 
-    Plug 'j-hui/fidget.nvim'
+  Plug 'j-hui/fidget.nvim'
 	Plug 'numToStr/Comment.nvim'
 
 call plug#end()
@@ -30,8 +30,8 @@ filetype on
 let mapleader=" "
 set number
 set relativenumber
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set expandtab
 set nowrap
 set modifiable
@@ -243,14 +243,67 @@ local on_attach = function(client, bufnr)
 	end, { noremap = true, silent = true, buffer = bufnr})
 end
 
-
 lspconfig.omnisharp.setup {
-  cmd = { os.getenv("HOME") .. "/.local/bin/omnisharp/run", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+  cmd = { 
+    os.getenv("HOME") .. "/.local/bin/omnisharp/run", 
+    "--languageserver", 
+    "--hostPID", 
+    tostring(vim.fn.getpid())
+  },
   capabilities = capabilities,
   on_attach = on_attach,
+  
+  -- Critical for Web API projects
   enable_editorconfig_support = true,
   enable_roslyn_analyzers = true,
   organize_imports_on_format = true,
+  enable_import_completion = true,
+  
+  handlers = {
+    ["textDocument/definition"] = require('omnisharp_extended').handler,
+  },
+
+  -- Web-specific settings
+  settings = {
+    FormattingOptions = {
+      OrganizeImports = true,
+      EnableEditorConfigSupport = true,
+    },
+    MsBuild = {
+      LoadProjectsOnDemand = false,
+      UseLegacySdkResolver = false,
+      MSBuildExtensionsPath = "",
+      VisualStudioVersion = "17.0",
+      -- Important for SDK resolution
+      EnablePackageAutoRestore = true,
+    },
+    RoslynExtensionsOptions = {
+      EnableAnalyzersSupport = true,
+      EnableImportCompletion = true,
+      EnableDecompilationSupport = true,
+      AnalyzeOpenDocumentsOnly = false, -- Changed to false for Web projects
+      InlayHintsOptions = {
+        EnableForParameters = true,
+        EnableForIndexerParameters = true,
+        EnableForLiteralParameters = true,
+        EnableForObjectCreationParameters = true,
+        EnableForOtherParameters = true,
+        EnableForTypes = true,
+      },
+    },
+    Sdk = {
+      IncludePrereleases = true,
+      AllowPrereleaseVersions = true,
+      -- Explicit SDK paths if needed
+      -- Path = "/usr/share/dotnet/sdk/"
+    },
+    -- Web-specific
+    EnablePackageRestore = true,
+    AutoStart = true,
+    ProjectLoadTimeout = 90, -- Increased for Web projects
+    MaxProjectResults = 250, -- Increased for larger projects
+    UseEditorFormattingOptions = true,
+  }
 }
 
 lspconfig.rust_analyzer.setup {
@@ -319,6 +372,136 @@ vim.keymap.set('n', '<leader>e', function()
   local opts = { focusable = false, border = "rounded" }
   vim.diagnostic.open_float(nil, opts)
 end, { noremap=true, silent=true })
+
+-- Enable LSP logging
+vim.lsp.set_log_level("debug")
+
+-- Check if Omnisharp is working
+local function check_omnisharp()
+  local clients = vim.lsp.get_active_clients()
+  for _, client in ipairs(clients) do
+    if client.name == "omnisharp" then
+      print("Omnisharp LSP is running!")
+      return true
+    end
+  end
+  print("Omnisharp LSP is not running")
+  return false
+end
+
+function CheckOmnisharpCapabilities()
+    local clients = vim.lsp.get_active_clients()
+    for _, client in ipairs(clients) do
+        if client.name == "omnisharp" then
+            print("Omnisharp client found!")
+            print("Server capabilities:")
+            print(vim.inspect(client.server_capabilities))
+            
+            -- Check if we have completion capabilities
+            if client.server_capabilities.completionProvider then
+                print("✓ Completion supported")
+            else
+                print("✗ Completion NOT supported")
+            end
+            
+            if client.server_capabilities.definitionProvider then
+                print("✓ Go-to-definition supported")
+            else
+                print("✗ Go-to-definition NOT supported")
+            end
+            
+            if client.server_capabilities.hoverProvider then
+                print("✓ Hover supported")
+            else
+                print("✗ Hover NOT supported")
+            end
+            
+            return
+        end
+    end
+    print("Omnisharp client not found")
+end
+
+function CheckOmnisharpProjectDependencies()
+    vim.lsp.buf_request(0, 'workspace/executeCommand', {
+        command = 'o#/projects',
+        arguments = {}
+    }, function(err, result)
+        if err then
+            print("Error getting projects: " .. vim.inspect(err))
+            return
+        end
+        
+        print("Loaded projects:")
+        if result and type(result) == 'table' then
+            for _, project in ipairs(result) do
+                print("Project: " .. (project.Name or "unknown"))
+                print("  Path: " .. (project.Path or "unknown"))
+                print("  Sources: " .. (project.SourceFiles and #project.SourceFiles or 0))
+                
+                -- Check if it has proper SDK
+                if project.MsBuildProject then
+                    print("  SDK: " .. (project.MsBuildProject.Sdk or "unknown"))
+                end
+            end
+        else
+            print("No project information available")
+        end
+    end)
+end
+
+-- Command to force package restore and project reload
+vim.api.nvim_create_user_command('OmniSharpFixWeb', function()
+    print("Forcing package restore and project reload...")
+    
+    -- First, try to restore packages
+    vim.lsp.buf_request(0, 'workspace/executeCommand', {
+        command = 'o#/packagerestore',
+        arguments = { vim.fn.expand('%:p:h') },
+    }, function(err, result)
+        if err then
+            print("Package restore command not available, trying manual restore...")
+            -- Manual restore via shell
+            vim.fn.system('dotnet restore ' .. vim.fn.expand('%:p:h'))
+        else
+            print("Package restore initiated")
+        end
+        
+        -- Then restart Omnisharp after a delay
+        vim.defer_fn(function()
+            vim.cmd('OmniSharpRestart')
+        end, 3000)
+    end)
+end, {})
+
+-- Check if WebApplication type is known
+function CheckOmnisharpWebApplicationType()
+    vim.lsp.buf_request(0, 'workspace/executeCommand', {
+        command = 'o#/typelookup',
+        arguments = { 
+            FileName = vim.fn.expand('%:p'),
+            Line = vim.fn.line('.') - 1,
+            Column = vim.fn.col('.') - 1,
+            IncludeDocumentation = true
+        },
+    }, function(err, result)
+        if err then
+            print("Type lookup error: " .. vim.inspect(err))
+        else
+            print("Type lookup result: " .. vim.inspect(result))
+        end
+    end)
+end
+
+
+-- Command to check LSP status
+vim.api.nvim_create_user_command('CheckOmnisharpLSP', check_omnisharp, {})
+vim.api.nvim_create_user_command('CheckOmnisharpCaps', CheckOmnisharpCapabilities, {})
+
+
+-- Omnisharp specific command
+vim.api.nvim_create_user_command('CheckOmnisharpProjects', CheckOmnisharpProjectDependencies, {})
+vim.api.nvim_create_user_command('CheckOmnisharpType', CheckOmnisharpWebApplicationType, {})
 
 
 EOF
