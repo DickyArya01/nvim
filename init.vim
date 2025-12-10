@@ -68,6 +68,7 @@ nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 nnoremap <C-h> :let g:NERDTreeShowHidden=1 \| NERDTreeRefreshRoot<CR>
+nnoremap <C-j> :NERDTreeRefreshRoot<CR>
 "=== NERD Tree ===!
 
 "" Go to definition
