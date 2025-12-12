@@ -1,26 +1,30 @@
 call plug#begin()
-	Plug 'preservim/nerdtree'
-	Plug 'Mofiqul/vscode.nvim'
-	Plug 'nvim-tree/nvim-web-devicons'
-	Plug 'romgrk/barbar.nvim'
-	Plug 'nvim-lua/plenary.nvim'
-	Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+        Plug 'preservim/nerdtree'
+        Plug 'Mofiqul/vscode.nvim'
+        Plug 'nvim-tree/nvim-web-devicons'
+        Plug 'romgrk/barbar.nvim'
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
 
-	" Plugin untuk LSP bawaan Neovim
-	Plug 'neovim/nvim-lspconfig'
-	Plug 'Hoffs/omnisharp-extended-lsp.nvim'
+        " Plugin untuk LSP bawaan Neovim
+        Plug 'neovim/nvim-lspconfig'
+        Plug 'Hoffs/omnisharp-extended-lsp.nvim'
   Plug 'nvim-lualine/lualine.nvim'
-	
-	" Untuk autocompletion
-	Plug 'hrsh7th/nvim-cmp'
-	Plug 'hrsh7th/cmp-nvim-lsp'
-	Plug 'hrsh7th/cmp-buffer'
-	Plug 'hrsh7th/cmp-path'
-	Plug 'L3MON4D3/LuaSnip'
-	Plug 'saadparwaiz1/cmp_luasnip'
+
+        " Untuk autocompletion
+        Plug 'hrsh7th/nvim-cmp'
+        Plug 'hrsh7th/cmp-nvim-lsp'
+        Plug 'hrsh7th/cmp-buffer'
+        Plug 'hrsh7th/cmp-path'
+        Plug 'L3MON4D3/LuaSnip'
+        Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'rafamadriz/friendly-snippets'  " Add snippets collection
 
   Plug 'j-hui/fidget.nvim'
-	Plug 'numToStr/Comment.nvim'
+        Plug 'numToStr/Comment.nvim'
+
+  " Treesitter for better syntax highlighting
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
@@ -42,19 +46,10 @@ set wildmode=list:longest
 " Wildmenu will ignore files with these extensions.
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
-inoremap <C-s> <Esc>:w!<CR>
-nnoremap <C-s> :w!<CR>
-inoremap <C-x> <Esc>:wq!<CR>
-nnoremap <C-x> :q!<CR>
-
 nnoremap so :source $MYVIMRC<CR>
-
-"=== General Configuration ===!
 
 "=== Colorscheme ===
 colorscheme vscode
-
-"=== Colorscheme ===!
 
 "=== NERD Tree ===
 autocmd VimEnter * NERDTree
@@ -69,14 +64,6 @@ nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 nnoremap <C-h> :let g:NERDTreeShowHidden=1 \| NERDTreeRefreshRoot<CR>
 nnoremap <C-j> :NERDTreeRefreshRoot<CR>
-"=== NERD Tree ===!
-
-"" Go to definition
-"nmap <silent> gd :<C-u>call CocActionAsync('jumpDefinition')<CR>
-"" Rename symbol
-"nmap <leader>rn <Plug>(coc-rename)
-
-"=== COC autocompletion ===!
 
 "=== Barbar ===
 lua require('nvim-web-devicons').setup { default = true; }
@@ -104,24 +91,10 @@ nnoremap <silent>    <A-0> <Cmd>BufferLast<CR>
 " Pin/unpin buffer
 nnoremap <silent>    <A-p> <Cmd>BufferPin<CR>
 
-" Goto pinned/unpinned buffer
-"                          :BufferGotoPinned
-"                          :BufferGotoUnpinned
-
 " Close buffer
 nnoremap <silent>    <A-c> <Cmd>BufferClose<CR>
 " Restore buffer
 nnoremap <silent>    <A-r> <Cmd>BufferRestore<CR>
-
-" Wipeout buffer
-"                          :BufferWipeout
-" Close commands
-"                          :BufferCloseAllButCurrent
-"                          :BufferCloseAllButVisible
-"                          :BufferCloseAllButPinned
-"                          :BufferCloseAllButCurrentOrPinned
-"                          :BufferCloseBuffersLeft
-"                          :BufferCloseBuffersRight
 
 " Magic buffer-picking mode
 nnoremap <silent> <C-p>    <Cmd>BufferPick<CR>
@@ -133,13 +106,6 @@ nnoremap <silent> <Space>bn <Cmd>BufferOrderByName<CR>
 nnoremap <silent> <Space>bd <Cmd>BufferOrderByDirectory<CR>
 nnoremap <silent> <Space>bl <Cmd>BufferOrderByLanguage<CR>
 nnoremap <silent> <Space>bw <Cmd>BufferOrderByWindowNumber<CR>
-
-" Other:
-" :BarbarEnable - enables barbar (enabled by default)
-" :BarbarDisable - very bad command, should never be usec
-"=== Barbar ===!
-
-
 
 "=== Nvim LSP ===
 lua << EOF
@@ -190,6 +156,27 @@ require('lualine').setup {
   extensions = {}
 }
 
+-- Setup Treesitter
+require('nvim-treesitter.configs').setup {
+  ensure_installed = {
+    'c', 'cpp', 'python', 'rust', 'lua', 'vim', 'vimdoc',
+    'javascript', 'typescript', 'html', 'css', 'json',
+    'markdown', 'bash'
+  },
+  highlight = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
+}
+
+-- Setup luasnip with friendly-snippets
+require('luasnip.loaders.from_vscode').lazy_load()
+require('luasnip').config.setup({
+  history = true,
+  updateevents = "TextChanged,TextChangedI",
+})
 
 local lspconfig = require('lspconfig')
 
@@ -202,7 +189,7 @@ vim.diagnostic.config({
   severity_sort = true,
 })
 
--- Autocompletion
+-- Autocompletion with improved settings
 local cmp = require'cmp'
 cmp.setup {
   snippet = {
@@ -211,16 +198,50 @@ cmp.setup {
     end
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-Space>'] = cmp.mapping.complete(),  -- Ctrl+Space for completion
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif require('luasnip').expand_or_jumpable() then
+        require('luasnip').expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif require('luasnip').jumpable(-1) then
+        require('luasnip').jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
+    { name = 'luasnip' },
     { name = 'buffer' },
-  })
+    { name = 'path' },
+  }),
+  formatting = {
+    format = function(entry, vim_item)
+      -- Show source name
+      vim_item.menu = ({
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[Snippet]",
+        nvim_lua = "[Lua]",
+        path = "[Path]",
+      })[entry.source.name]
+      return vim_item
+    end,
+  },
 }
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true, buffer=bufnr }
@@ -228,21 +249,21 @@ local on_attach = function(client, bufnr)
   if client.name == "omnisharp" then
     vim.keymap.set('n', 'gd', require('omnisharp_extended').lsp_definition, opts)
   else
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)  -- Go to definition
   end
 
   vim.keymap.set('n', 'fr', vim.lsp.buf.references, opts)
-
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', '<leader>fn', vim.lsp.buf.rename, opts)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
 
-	--formating
-	vim.keymap.set('n', '<leader>fa', function()
-		vim.lsp.buf.format({ async = true })
-	end, { noremap = true, silent = true, buffer = bufnr})
+  -- Formating
+  vim.keymap.set('n', '<leader>fa', function()
+    vim.lsp.buf.format({ async = true })
+  end, { noremap = true, silent = true, buffer = bufnr})
 end
 
+-- Omnisharp setup
 lspconfig.omnisharp.setup {
   cmd = { 
     os.getenv("HOME") .. "/.local/bin/omnisharp/run", 
@@ -252,13 +273,13 @@ lspconfig.omnisharp.setup {
   },
   capabilities = capabilities,
   on_attach = on_attach,
-  
+
   -- Critical for Web API projects
   enable_editorconfig_support = true,
   enable_roslyn_analyzers = true,
   organize_imports_on_format = true,
   enable_import_completion = true,
-  
+
   handlers = {
     ["textDocument/definition"] = require('omnisharp_extended').handler,
   },
@@ -274,14 +295,13 @@ lspconfig.omnisharp.setup {
       UseLegacySdkResolver = false,
       MSBuildExtensionsPath = "",
       VisualStudioVersion = "17.0",
-      -- Important for SDK resolution
       EnablePackageAutoRestore = true,
     },
     RoslynExtensionsOptions = {
       EnableAnalyzersSupport = true,
       EnableImportCompletion = true,
       EnableDecompilationSupport = true,
-      AnalyzeOpenDocumentsOnly = false, -- Changed to false for Web projects
+      AnalyzeOpenDocumentsOnly = false,
       InlayHintsOptions = {
         EnableForParameters = true,
         EnableForIndexerParameters = true,
@@ -294,18 +314,16 @@ lspconfig.omnisharp.setup {
     Sdk = {
       IncludePrereleases = true,
       AllowPrereleaseVersions = true,
-      -- Explicit SDK paths if needed
-      -- Path = "/usr/share/dotnet/sdk/"
     },
-    -- Web-specific
     EnablePackageRestore = true,
     AutoStart = true,
-    ProjectLoadTimeout = 90, -- Increased for Web projects
-    MaxProjectResults = 250, -- Increased for larger projects
+    ProjectLoadTimeout = 90,
+    MaxProjectResults = 250,
     UseEditorFormattingOptions = true,
   }
 }
 
+-- Rust analyzer setup
 lspconfig.rust_analyzer.setup {
   cmd = { "rust-analyzer" },
   capabilities = capabilities,
@@ -319,23 +337,21 @@ lspconfig.rust_analyzer.setup {
   },
 }
 
+-- Clangd setup for C/C++
 lspconfig.clangd.setup {
   cmd = { "clangd", "--background-index" },
   capabilities = capabilities,
   on_attach = on_attach,
   filetypes = { "c", "cpp", "objc", "objcpp" },
   root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
-  -- Optional: clangd-specific settings
   settings = {
     clangd = {
-      -- Enable clang-tidy linting
       clangTidy = true,
-      -- Optional: run clangd static analyzer
-      -- semanticHighlighting = true
     }
   }
 }
 
+-- Pyright setup for Python
 lspconfig.pyright.setup {
   capabilities = capabilities,
   on_attach = on_attach,
@@ -350,22 +366,25 @@ lspconfig.pyright.setup {
   },
 }
 
--- Autoformat on save hanya untuk C & C++
+-- Autoformat on save for ALL languages including Python and Rust
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.cpp", "*.hpp", "*.c", "*.h" },
+  pattern = { "*.cpp", "*.hpp", "*.c", "*.h", "*.py", "*.rs", "*.cs" },
   callback = function(args)
     vim.lsp.buf.format({ async = false, bufnr = args.buf })
   end,
 })
 
-
+-- Setup Comment plugin with Ctrl+/ (which is Ctrl+_ in terminal)
 require('Comment').setup()
+
+-- Comment keybindings - Ctrl+/ (shows as Ctrl+_ in terminal)
 vim.keymap.set('n', '<C-_>', function()
   require('Comment.api').toggle.linewise.current()
 end, { noremap = true, silent = true })
 
 vim.keymap.set('v', '<C-_>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { noremap = true, silent = true })
 
+-- Diagnostics navigation
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap=true, silent=true })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { noremap=true, silent=true })
 vim.keymap.set('n', '<leader>e', function()
@@ -373,136 +392,17 @@ vim.keymap.set('n', '<leader>e', function()
   vim.diagnostic.open_float(nil, opts)
 end, { noremap=true, silent=true })
 
--- Enable LSP logging
-vim.lsp.set_log_level("debug")
+-- Additional useful keymaps
+-- Find references
+vim.keymap.set('n', 'gr', vim.lsp.buf.references, { noremap=true, silent=true })
+-- Show line diagnostics
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { noremap=true, silent=true })
+-- Go to implementation
+vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { noremap=true, silent=true })
+-- Show signature help
+vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, { noremap=true, silent=true })
 
--- Check if Omnisharp is working
-local function check_omnisharp()
-  local clients = vim.lsp.get_active_clients()
-  for _, client in ipairs(clients) do
-    if client.name == "omnisharp" then
-      print("Omnisharp LSP is running!")
-      return true
-    end
-  end
-  print("Omnisharp LSP is not running")
-  return false
-end
-
-function CheckOmnisharpCapabilities()
-    local clients = vim.lsp.get_active_clients()
-    for _, client in ipairs(clients) do
-        if client.name == "omnisharp" then
-            print("Omnisharp client found!")
-            print("Server capabilities:")
-            print(vim.inspect(client.server_capabilities))
-            
-            -- Check if we have completion capabilities
-            if client.server_capabilities.completionProvider then
-                print("✓ Completion supported")
-            else
-                print("✗ Completion NOT supported")
-            end
-            
-            if client.server_capabilities.definitionProvider then
-                print("✓ Go-to-definition supported")
-            else
-                print("✗ Go-to-definition NOT supported")
-            end
-            
-            if client.server_capabilities.hoverProvider then
-                print("✓ Hover supported")
-            else
-                print("✗ Hover NOT supported")
-            end
-            
-            return
-        end
-    end
-    print("Omnisharp client not found")
-end
-
-function CheckOmnisharpProjectDependencies()
-    vim.lsp.buf_request(0, 'workspace/executeCommand', {
-        command = 'o#/projects',
-        arguments = {}
-    }, function(err, result)
-        if err then
-            print("Error getting projects: " .. vim.inspect(err))
-            return
-        end
-        
-        print("Loaded projects:")
-        if result and type(result) == 'table' then
-            for _, project in ipairs(result) do
-                print("Project: " .. (project.Name or "unknown"))
-                print("  Path: " .. (project.Path or "unknown"))
-                print("  Sources: " .. (project.SourceFiles and #project.SourceFiles or 0))
-                
-                -- Check if it has proper SDK
-                if project.MsBuildProject then
-                    print("  SDK: " .. (project.MsBuildProject.Sdk or "unknown"))
-                end
-            end
-        else
-            print("No project information available")
-        end
-    end)
-end
-
--- Command to force package restore and project reload
-vim.api.nvim_create_user_command('OmniSharpFixWeb', function()
-    print("Forcing package restore and project reload...")
-    
-    -- First, try to restore packages
-    vim.lsp.buf_request(0, 'workspace/executeCommand', {
-        command = 'o#/packagerestore',
-        arguments = { vim.fn.expand('%:p:h') },
-    }, function(err, result)
-        if err then
-            print("Package restore command not available, trying manual restore...")
-            -- Manual restore via shell
-            vim.fn.system('dotnet restore ' .. vim.fn.expand('%:p:h'))
-        else
-            print("Package restore initiated")
-        end
-        
-        -- Then restart Omnisharp after a delay
-        vim.defer_fn(function()
-            vim.cmd('OmniSharpRestart')
-        end, 3000)
-    end)
-end, {})
-
--- Check if WebApplication type is known
-function CheckOmnisharpWebApplicationType()
-    vim.lsp.buf_request(0, 'workspace/executeCommand', {
-        command = 'o#/typelookup',
-        arguments = { 
-            FileName = vim.fn.expand('%:p'),
-            Line = vim.fn.line('.') - 1,
-            Column = vim.fn.col('.') - 1,
-            IncludeDocumentation = true
-        },
-    }, function(err, result)
-        if err then
-            print("Type lookup error: " .. vim.inspect(err))
-        else
-            print("Type lookup result: " .. vim.inspect(result))
-        end
-    end)
-end
-
-
--- Command to check LSP status
-vim.api.nvim_create_user_command('CheckOmnisharpLSP', check_omnisharp, {})
-vim.api.nvim_create_user_command('CheckOmnisharpCaps', CheckOmnisharpCapabilities, {})
-
-
--- Omnisharp specific command
-vim.api.nvim_create_user_command('CheckOmnisharpProjects', CheckOmnisharpProjectDependencies, {})
-vim.api.nvim_create_user_command('CheckOmnisharpType', CheckOmnisharpWebApplicationType, {})
-
+print("LSP configuration loaded successfully!")
 
 EOF
 "=== Nvim LSP ===!
@@ -512,15 +412,19 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-"=== Telescope ===!
 
+"=== Additional Keymaps ===
+" Quick navigation
+nnoremap <leader>gs :LspStop<CR>
+nnoremap <leader>gr :LspRestart<CR>
 
+" Quick file operations
+inoremap <leader>fs <Esc>:w!<CR>
+inoremap <leader>fw <Esc>:wq!<CR>
 
-
-
-
-
-
+nnoremap <leader>fs :w<CR>
+nnoremap <leader>fq :q<CR>
+nnoremap <leader>fw :wq<CR>
 
 
 
