@@ -263,6 +263,37 @@ local on_attach = function(client, bufnr)
   end, { noremap = true, silent = true, buffer = bufnr})
 end
 
+-- Save Formatting
+local function safe_format()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+
+  if #clients > 0 then
+    local success, err = pcall(function()
+      vim.lsp.buf.format({ async = false })
+    end)
+
+    if not success then
+      print("Formatting is not available for this type of file")
+    end
+  else
+    print("No LSP client attached - skipping formatting")
+  end
+end
+
+local function safe_format_and_save()
+  safe_format()
+  vim.cmd('w!')
+end
+
+local function safe_format_and_quit()
+  safe_format()
+  vim.cmd('wq!')
+end
+
+_G.SafeFormatAndSave = safe_format_and_save
+_G.SafeFormatAndQuit = safe_format_and_quit
+
 -- Omnisharp setup
 lspconfig.omnisharp.setup {
   cmd = { 
@@ -418,13 +449,17 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>gs :LspStop<CR>
 nnoremap <leader>gr :LspRestart<CR>
 
-" Quick file operations
-inoremap <leader>fs <Esc>:lua vim.lsp.buf.format({ async = false })<CR>:w!<CR>
-inoremap <leader>fw <Esc>:lua vim.lsp.buf.format({ async = false })<CR>:wq!<CR>
 
-nnoremap <leader>fs lua vim.lsp.buf.format({ async = false })<CR>:w<CR>
-nnoremap <leader>fq :q<CR>
-nnoremap <leader>fw lua vim.lsp.buf.format({ async = false })<CR>:wq<CR>
+
+" Quick file operations
+inoremap <silent> <leader>fs <Esc><Cmd>lua SafeFormatAndSave()<CR>
+inoremap <silent> <leader>fw <Esc><Cmd>lua SafeFormatAndQuit()<CR>
+
+nnoremap <silent> <leader>fs <Cmd>lua SafeFormatAndSave()<CR>
+nnoremap <silent> <leader>fw <Cmd>lua SafeFormatAndQuit()<CR>
+nnoremap <silent> <leader>fq :q<CR>
+
+
 
 
 
