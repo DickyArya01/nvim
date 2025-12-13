@@ -1,185 +1,262 @@
-# nvim
+# Neovim Configuration - User Manual
 
-Oke 👍. Berdasarkan `init.vim` yang sudah Anda tulis, saya akan buatkan manual singkat dalam bentuk **Markdown (`.md`)**. Ini semacam dokumentasi agar Anda (atau orang lain) bisa langsung paham bagaimana menggunakan konfigurasi Neovim tersebut.
+## 📋 Overview
+This Neovim configuration is optimized for modern software development with comprehensive language support, smart autocompletion, and an efficient workflow. It features a clean VS Code-like interface with powerful plugins for navigation, editing, and language support.
+
+## ✨ Features
+- 🎨 VS Code-inspired color scheme
+- 📁 NERDTree file explorer
+- 🧭 Telescope fuzzy finder
+- 📊 Barbar buffer tabs
+- 🧠 LSP support for multiple languages
+- 🤖 Autocompletion with snippets
+- 🌳 Treesitter syntax highlighting
+- 📝 Comment toggling
+- 🎯 Language-specific formatters
+
+## 🚀 Installation Requirements
+
+### 1. Prerequisites
+```bash
+# Install Neovim (>= 0.9.0)
+# Install Git
+# Install Node.js (for some LSP servers)
+# Install .NET SDK (for Omnisharp/C#)
+```
+
+### 2. Plugin Manager
+This config uses **vim-plug**. Install it first:
+```bash
+# Unix/Linux
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+```
+
+### 3. Language Servers
+Install required LSP servers:
+```bash
+# C# - Omnisharp
+wget https://github.com/OmniSharp/omnisharp-roslyn/releases/latest/download/omnisharp-linux-x64.tar.gz
+tar -xzf omnisharp-linux-x64.tar.gz -C ~/.local/bin/
+mv ~/.local/bin/omnisharp-linux-x64 ~/.local/bin/omnisharp
+
+# Rust
+rustup component add rust-analyzer
+
+# C/C++
+sudo apt-get install clangd  # or your package manager equivalent
+
+# Python
+pip install pyright
+
+# TypeScript/JavaScript
+npm install -g typescript typescript-language-server
+```
+
+## 🔧 Configuration Installation
+
+1. **Copy the config file:**
+```bash
+mkdir -p ~/.config/nvim
+cp init.vim ~/.config/nvim/init.vim
+```
+
+2. **Install plugins:**
+Open Neovim and run:
+```vim
+:PlugInstall
+```
+
+3. **Install Treesitter parsers:**
+```vim
+:TSInstall c cpp python rust lua vim vimdoc javascript typescript html css json markdown bash
+```
+
+## ⌨️ Keybindings Reference
+
+### General Navigation
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>` | - | Space key |
+| `so` | Normal | Reload Neovim config |
+| `<A-,>` | Normal | Previous buffer (Alt+,) |
+| `<A-.>` | Normal | Next buffer (Alt+.) |
+| `<A-1>` to `<A-9>` | Normal | Go to buffer 1-9 |
+| `<A-0>` | Normal | Go to last buffer |
+| `<A-p>` | Normal | Pin/unpin buffer |
+| `<A-c>` | Normal | Close buffer |
+| `<C-p>` | Normal | Buffer pick mode |
+
+### File Explorer (NERDTree)
+| Key | Action |
+|-----|--------|
+| `<leader>n` | Focus NERDTree |
+| `<C-n>` | Open NERDTree |
+| `<C-t>` | Toggle NERDTree |
+| `<C-f>` | Find current file in NERDTree |
+| `<C-h>` | Show hidden files |
+| `<C-j>` | Refresh NERDTree |
+
+### Telescope (Fuzzy Finder)
+| Key | Action |
+|-----|--------|
+| `<leader>ff` | Find files |
+| `<leader>fg` | Live grep in files |
+| `<leader>fb` | Find buffers |
+| `<leader>fh` | Help tags |
+
+### LSP (Language Server Protocol)
+| Key | Action |
+|-----|--------|
+| `gd` | Go to definition |
+| `fr` / `gr` | Find references |
+| `K` | Hover information |
+| `<leader>fn` | Rename symbol |
+| `<leader>ca` | Code actions |
+| `<leader>fa` | Format document |
+| `gi` | Go to implementation |
+| `[d` | Previous diagnostic |
+| `]d` | Next diagnostic |
+| `<leader>e` | Show diagnostics |
+| `<leader>d` | Line diagnostics |
+| `<leader>k` | Signature help |
+
+### Autocompletion
+| Key | Action |
+|-----|--------|
+| `<C-Space>` | Trigger completion |
+| `<Tab>` | Next completion item or expand snippet |
+| `<S-Tab>` | Previous completion item |
+| `<CR>` | Confirm selection |
+
+### Code Commenting
+| Key | Mode | Action |
+|-----|------|--------|
+| `Ctrl+/` | Normal | Toggle line comment |
+| `Ctrl+/` | Visual | Toggle block comment |
+
+### Quick Actions
+| Key | Action |
+|-----|--------|
+| `<leader>fs` | Format and save |
+| `<leader>fw` | Format and save+quit |
+| `<leader>fq` | Quit |
+| `<leader>gs` | Stop LSP |
+| `<leader>gr` | Restart LSP |
+
+## 🖥️ Supported Languages & Setup
+
+### C# (.NET)
+- **Server**: Omnisharp
+- **Features**: Full .NET support, Roslyn analyzers, import completion
+- **Auto-format**: Yes (on save)
+- **File types**: `.cs`
+
+### Rust
+- **Server**: rust-analyzer
+- **Features**: Full Rust support, diagnostics
+- **Auto-format**: Yes (on save)
+- **File types**: `.rs`
+
+### C/C++
+- **Server**: clangd
+- **Features**: Background indexing, clang-tidy
+- **Auto-format**: Yes (on save)
+- **File types**: `.c`, `.cpp`, `.h`, `.hpp`
+
+### Python
+- **Server**: pyright
+- **Features**: Type checking, auto imports
+- **Auto-format**: Yes (on save)
+- **File types**: `.py`
+
+### Other Languages
+- Lua, JavaScript, TypeScript, HTML, CSS, JSON, Markdown, Bash
+- All have Treesitter highlighting and basic LSP support
+
+## ⚙️ Customization
+
+### Color Scheme
+The config uses `vscode.nvim` theme. Change it by modifying:
+```vim
+colorscheme vscode
+```
+Replace `vscode` with any installed colorscheme.
+
+### Tab Settings
+Modify these lines to change tab behavior:
+```vim
+set shiftwidth=2    " Indent size
+set tabstop=2       " Tab width
+set expandtab       " Use spaces instead of tabs
+```
+
+### Adding New LSP Servers
+Add new language servers in the Lua section:
+```lua
+lspconfig.lua_ls.setup {  -- Example for Lua
+  capabilities = capabilities,
+  on_attach = on_attach,
+}
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **Plugins not loading:**
+```vim
+:PlugStatus  # Check plugin status
+:PlugInstall # Reinstall plugins
+```
+
+2. **LSP not working:**
+   - Check if language server is installed
+   - Run `:LspInfo` to check server status
+   - Check `:messages` for errors
+
+3. **Autocompletion not showing:**
+   - Ensure `<C-Space>` is mapped correctly
+   - Check if `nvim-cmp` is installed
+
+4. **Format on save not working:**
+   - Verify LSP server supports formatting
+   - Check file extension is in auto-format pattern
+
+### Debug Commands
+```vim
+:checkhealth      # Comprehensive health check
+:LspLog           # View LSP logs
+:TSInstallInfo    # Check Treesitter parsers
+```
+
+## 🎯 Tips & Tricks
+
+1. **Quick configuration reload:** Type `so` in Normal mode
+2. **Hidden files in NERDTree:** Press `Ctrl+h` to toggle
+3. **Buffer management:** Use `Alt+,` and `Alt+.` to navigate quickly
+4. **Project-wide search:** Use `<leader>fg` with Telescope
+5. **Diagnostics:** Hover over errors with `K` or navigate with `[d`/`]d`
+
+## 🔄 Updates
+
+To update all plugins:
+```vim
+:PlugUpdate
+```
+
+To update Treesitter parsers:
+```vim
+:TSUpdate
+```
+
+## 📚 Additional Resources
+
+- [Neovim documentation](https://neovim.io/doc/)
+- [vim-plug GitHub](https://github.com/junegunn/vim-plug)
+- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+- [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 
 ---
 
-# 📖 Neovim Manual
-
-## ✨ Plugin yang Digunakan
-
-Konfigurasi ini menggunakan [vim-plug](https://github.com/junegunn/vim-plug). Plugin yang dipasang:
-
-* **File Explorer & UI**
-
-  * [`preservim/nerdtree`](https://github.com/preservim/nerdtree) → File explorer.
-  * [`nvim-tree/nvim-web-devicons`](https://github.com/nvim-tree/nvim-web-devicons) → Icon untuk file.
-  * [`romgrk/barbar.nvim`](https://github.com/romgrk/barbar.nvim) → Buffer/tabline modern.
-  * [`nvim-lualine/lualine.nvim`](https://github.com/nvim-lualine/lualine.nvim) → Statusline.
-
-* **Colorscheme**
-
-  * [`Mofiqul/vscode.nvim`](https://github.com/Mofiqul/vscode.nvim) → Tema mirip VSCode.
-
-* **LSP & Autocompletion**
-
-  * [`neovim/nvim-lspconfig`](https://github.com/neovim/nvim-lspconfig) → Konfigurasi LSP.
-  * [`Hoffs/omnisharp-extended-lsp.nvim`](https://github.com/Hoffs/omnisharp-extended-lsp.nvim) → Tambahan untuk Omnisharp.
-  * [`hrsh7th/nvim-cmp`](https://github.com/hrsh7th/nvim-cmp) → Engine autocompletion.
-  * [`hrsh7th/cmp-nvim-lsp`](https://github.com/hrsh7th/cmp-nvim-lsp) → Sumber LSP untuk nvim-cmp.
-  * [`hrsh7th/cmp-buffer`](https://github.com/hrsh7th/cmp-buffer) → Completion dari buffer.
-  * [`hrsh7th/cmp-path`](https://github.com/hrsh7th/cmp-path) → Completion untuk path.
-  * [`L3MON4D3/LuaSnip`](https://github.com/L3MON4D3/LuaSnip) → Snippet engine.
-  * [`saadparwaiz1/cmp_luasnip`](https://github.com/saadparwaiz1/cmp_luasnip) → Integrasi LuaSnip.
-
-* **Utility**
-
-  * [`nvim-lua/plenary.nvim`](https://github.com/nvim-lua/plenary.nvim) → Dependency.
-  * [`nvim-telescope/telescope.nvim`](https://github.com/nvim-telescope/telescope.nvim) → Finder & fuzzy search.
-  * [`j-hui/fidget.nvim`](https://github.com/j-hui/fidget.nvim) → UI progress untuk LSP.
-  * [`numToStr/Comment.nvim`](https://github.com/numToStr/Comment.nvim) → Toggle komentar.
-
----
-
-## ⚙️ General Configuration
-
-* `number`, `relativenumber` → Tampilkan nomor baris relatif.
-* `tabstop=4`, `shiftwidth=4`, `expandtab` → Indentasi default: 4 spasi.
-* `wildmenu`, `wildmode=list:longest` → Autocomplete command lebih nyaman.
-* `wildignore` → Abaikan file tertentu di autocomplete.
-
-### Keybinding Umum
-
-* **Save** → `Ctrl+s`
-* **Quit tanpa save** → `Ctrl+x`
-* **Reload config** → `so`
-
----
-
-## 🎨 Colorscheme
-
-* Tema: `vscode.nvim`
-
-  ```vim
-  colorscheme vscode
-  ```
-
----
-
-## 📂 NERDTree
-
-### Otomatis terbuka saat masuk
-
-* `:NERDTree` terbuka saat startup.
-* Jika hanya tersisa NERDTree window → Neovim otomatis `quit`.
-
-### Keybinding
-
-* `<leader>n` → Fokus ke NERDTree
-* `Ctrl+n` → Buka NERDTree
-* `Ctrl+t` → Toggle NERDTree
-* `Ctrl+f` → Temukan file aktif di NERDTree
-* `Ctrl+h` → Tampilkan hidden files
-
----
-
-## 📑 Barbar (Bufferline)
-
-### Navigasi Buffer
-
-* `Alt+,` → Buffer sebelumnya
-* `Alt+.` → Buffer berikutnya
-* `Alt+<` → Geser buffer ke kiri
-* `Alt+>` → Geser buffer ke kanan
-* `Alt+1..9` → Lompat ke buffer ke-n
-* `Alt+0` → Buffer terakhir
-* `Alt+p` → Pin/unpin buffer
-* `Alt+c` → Tutup buffer
-* `Alt+r` → Restore buffer terakhir
-
-### Buffer Picker
-
-* `Ctrl+p` → Pilih buffer
-* `Ctrl+Shift+p` → Hapus buffer lewat picker
-
-### Sort Buffer
-
-* `<Space>bb` → Berdasarkan nomor buffer
-* `<Space>bn` → Berdasarkan nama
-* `<Space>bd` → Berdasarkan direktori
-* `<Space>bl` → Berdasarkan bahasa
-* `<Space>bw` → Berdasarkan nomor window
-
----
-
-## 🧠 LSP & Autocompletion
-
-### LSP yang sudah di-setup:
-
-* **C#** → Omnisharp
-* **Rust** → rust-analyzer
-* **C/C++** → clangd
-
-### Fitur LSP
-
-* Diagnostic:
-
-  * `[d` → Previous diagnostic
-  * `]d` → Next diagnostic
-  * `<leader>e` → Buka diagnostic popup
-* Go to definition:
-
-  * `gd` → Lompat ke definisi
-* Find Reference:
-
-  * `fr` → Menampilkan semua lokasi di mana fungsi/variabel tersebut digunakan
-* Hover:
-
-  * `K` → Tampilkan dokumentasi simbol
-* Rename:
-
-  * `<leader>fn`
-* Code Action:
-
-  * `<leader>ca`
-* Formatting:
-
-  * `<leader>fa`
-
-### Autoformat on Save
-
-* Berlaku untuk: `*.c, *.cpp, *.h, *.hpp`
-
----
-
-## 🔍 Telescope
-
-* `<leader>ff` → Cari file
-* `<leader>fg` → Live grep
-* `<leader>fb` → Cari buffer
-* `<leader>fh` → Cari help tags
-
----
-
-## 💬 Comment.nvim
-
-* `Ctrl+/` → Toggle comment (line atau visual mode)
-
----
-
-## 🛠️ Tips
-
-1. Untuk install plugin → Jalankan:
-
-   ```
-   :PlugInstall
-   ```
-2. Untuk update plugin → Jalankan:
-
-   ```
-   :PlugUpdate
-   ```
-3. Untuk reload config tanpa restart → `so`
-
----
-
+**Note:** This configuration is optimized for a developer workflow with multiple languages. Adjust keybindings and settings to match your personal preferences.
