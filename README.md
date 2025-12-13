@@ -167,42 +167,35 @@ Open Neovim and run:
 ### Terminal Actions
 | Key | Mode | Action |
 |-----|------|--------|
+| `<leader>tt` | Normal | Open terminal |
 | `<leader>th` | Normal | Open split terminal below |
 | `<leader>tv` | Normal | Open split terminal right |
-| `<leader>tt` | Normal | Toggle terminal |
-| `<leader>tf` | Normal | Toggle floating terminal |
-| `<leader>tg` | Normal | Open lazygit |
-| `<leader>tr` | Normal | Run current file |
 | `<leader>q` | Terminal | Close terminal |
 | `<leader>qc` | Normal | Close terminal |
-| `Esc` | Terminal | Exit to normal mode |
-| `Ctrl+h/j/k/l` | Terminal | Navigate between windows |
 
 ### Split Windows
 | Key | Action |
 |-----|--------|
-| `<leader>v` | Split vertically (right) |
-| `<leader>V` | Split vertically (left) |
-| `<leader>s` | Split horizontally (below) |
-| `<leader>S` | Split horizontally (above) |
+| `<leader>sr` | Split vertically (right) |
+| `<leader>sl` | Split vertically (left) |
+| `<leader>sd` | Split horizontally (below) |
+| `<leader>su` | Split horizontally (above) |
 | `<leader>=` | Equalize all splits |
-| `<leader>>` | Increase vertical split width |
-| `<leader><` | Decrease vertical split width |
-| `<leader>+` | Increase horizontal split height |
-| `<leader>-` | Decrease horizontal split height |
+| `<leader><Right>` | Increase vertical split width |
+| `<leader><Left>` | Decrease vertical split width |
+| `<leader><Up>` | Increase horizontal split height |
+| `<leader><Down>` | Decrease horizontal split height |
 
 ### Buffer Management
 | Key | Action |
 |-----|--------|
 | `<A-,>` | Previous buffer |
 | `<A-.>` | Next buffer |
-| `<A-1>` to `<A-9>` | Go to buffer 1-9 |
-| `<A-0>` | Go to last buffer |
+| `<leader>w1` to `<leader>w9` | Go to buffer 1-9 |
+| `<leader>w0` | Go to last buffer |
 | `<A-p>` | Pin/unpin buffer |
 | `<A-c>` | Close buffer |
 | `<C-p>` | Buffer pick mode |
-| `<leader>1` to `<leader>9` | Go to buffer 1-9 (alternative) |
-| `<leader>0` | Go to last buffer (alternative) |
 
 ## 🖥️ Supported Languages & Setup
 | Language | LSP Server | Auto-format | File Types |
