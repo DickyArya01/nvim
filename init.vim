@@ -419,12 +419,12 @@ nnoremap <leader>gs :LspStop<CR>
 nnoremap <leader>gr :LspRestart<CR>
 
 " Quick file operations
-inoremap <leader>fs <Esc>:w!<CR>
-inoremap <leader>fw <Esc>:wq!<CR>
+inoremap <leader>fs <Esc>:lua vim.lsp.buf.format({ async = false })<CR>:w!<CR>
+inoremap <leader>fw <Esc>:lua vim.lsp.buf.format({ async = false })<CR>:wq!<CR>
 
-nnoremap <leader>fs :w<CR>
+nnoremap <leader>fs lua vim.lsp.buf.format({ async = false })<CR>:w<CR>
 nnoremap <leader>fq :q<CR>
-nnoremap <leader>fw :wq<CR>
+nnoremap <leader>fw lua vim.lsp.buf.format({ async = false })<CR>:wq<CR>
 
 
 
