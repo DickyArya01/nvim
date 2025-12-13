@@ -148,12 +148,12 @@ Open Neovim and run:
 
 
 ### Terminal Actions
-| Key | Action |
-|-----|--------|
-| `<leader>th` | Open split terminal below |
-| `<leader>tv` | Open split terminal right |
-| `<leader>q` | Close terminal on terminal mode |
-| `<leader>qc` | Close terminal on normal mode |
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>th` | normal | Open split terminal below |
+| `<leader>tv` | normal | Open split terminal right |
+| `<leader>q` | terminal | Close terminal |
+| `<leader>qc` | normal | Close terminal on normal mode |
 
 ## 🖥️ Supported Languages & Setup
 
