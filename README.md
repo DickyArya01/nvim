@@ -149,6 +149,7 @@ Open Neovim and run:
 
 ### Terminal Actions
 | Key | Action |
+|-----|--------|
 | `<leader>th` | Open split terminal below |
 | `<leader>tv` | Open split terminal right |
 | `<leader>q` | Close terminal on terminal mode |
