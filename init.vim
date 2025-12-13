@@ -460,10 +460,31 @@ nnoremap <silent> <leader>fw <Cmd>lua SafeFormatAndQuit()<CR>
 nnoremap <silent> <leader>fq :q<CR>
 
 
-" Split right
+" Vertical splits
 nnoremap <leader>sr :set splitright<CR>:vsplit<CR>  
-" Split left
 nnoremap <leader>sl :set nosplitright<CR>:vsplit<CR> 
+
+" Horizontal splits
+nnoremap <leader>sd :set splitbelow<CR>:split<CR>  
+nnoremap <leader>su :set nosplitbelow<CR>:split<CR>
+
+" Navigate splits
+nnoremap <leader>hh <C-w>h
+nnoremap <leader>ll <C-w>l
+nnoremap <leader>kk <C-w>k
+nnoremap <leader>jj <C-w>j
+
+" Manage splits
+" Increase width
+nnoremap <leader><Right> <C-w>>
+" Decrease width
+nnoremap <leader><Left> <C-w><
+" Increase height
+nnoremap <leader><Up> <C-w>+
+" Decrease height
+nnoremap <leader><Down> <C-w>-
+" Equalize windows
+nnoremap <leader>= <C-w>=
 
 
 nnoremap <leader>tt :terminal<CR>
