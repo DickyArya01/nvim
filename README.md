@@ -260,3 +260,5 @@ To update Treesitter parsers:
 ---
 
 **Note:** This configuration is optimized for a developer workflow with multiple languages. Adjust keybindings and settings to match your personal preferences.
+
+[Docs](https://github.com/DickyArya01/nvim)
