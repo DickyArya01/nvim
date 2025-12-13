@@ -460,6 +460,27 @@ nnoremap <silent> <leader>fw <Cmd>lua SafeFormatAndQuit()<CR>
 nnoremap <silent> <leader>fq :q<CR>
 
 
+" Split right
+nnoremap <leader>sr :set splitright<CR>:vsplit<CR>  
+" Split left
+nnoremap <leader>sl :set nosplitright<CR>:vsplit<CR> 
+
+
+nnoremap <leader>tt :terminal<CR>
+nnoremap <leader>th :set splitbelow<CR>:split<CR>:terminal<CR>
+nnoremap <leader>tv :set splitright<CR>:vsplit<CR>:terminal<CR>
+
+" Terminal mode navigation (MOST IMPORTANT!)
+
+" Close terminal from terminal mode
+tnoremap <leader>q <C-\><C-n>:close<CR>
+" Close terminal from normal mode
+nnoremap <leader>qc :close<CR>
+
+
+
+
+
 
 
 

@@ -143,6 +143,15 @@ Open Neovim and run:
 | `<leader>fq` | Quit |
 | `<leader>gs` | Stop LSP |
 | `<leader>gr` | Restart LSP |
+| `<leader>sr` | Split Buffer Right |
+| `<leader>sl` | Split Buffer Left |
+
+
+### Terminal Actions
+| `<leader>th` | Open split terminal below |
+| `<leader>tv` | Open split terminal right |
+| `<leader>q` | Close terminal on terminal mode |
+| `<leader>qc` | Close terminal on normal mode |
 
 ## 🖥️ Supported Languages & Setup
 
