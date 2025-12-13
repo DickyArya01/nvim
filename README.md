@@ -3,16 +3,39 @@
 ## 📋 Overview
 This Neovim configuration is optimized for modern software development with comprehensive language support, smart autocompletion, and an efficient workflow. It features a clean VS Code-like interface with powerful plugins for navigation, editing, and language support.
 
+## 📑 Table of Contents
+1. [✨ Features](#-features)
+2. [🚀 Installation Requirements](#-installation-requirements)
+3. [🔧 Configuration Installation](#-configuration-installation)
+4. [⌨️ Keybindings Reference](#-keybindings-reference)
+   - [General Navigation](#general-navigation)
+   - [File Explorer (NERDTree)](#file-explorer-nerdtree)
+   - [Telescope (Fuzzy Finder)](#telescope-fuzzy-finder)
+   - [LSP (Language Server Protocol)](#lsp-language-server-protocol)
+   - [Autocompletion](#autocompletion)
+   - [Code Commenting](#code-commenting)
+   - [Quick Actions](#quick-actions)
+   - [Terminal Actions](#terminal-actions)
+   - [Split Windows](#split-windows)
+   - [Buffer Management](#buffer-management)
+5. [🖥️ Supported Languages & Setup](#-supported-languages--setup)
+6. [⚙️ Customization](#-customization)
+7. [🐛 Troubleshooting](#-troubleshooting)
+8. [🎯 Tips & Tricks](#-tips--tricks)
+9. [🔄 Updates](#-updates)
+10. [📚 Additional Resources](#-additional-resources)
+
+---
+
 ## ✨ Features
-- 🎨 VS Code-inspired color scheme
-- 📁 NERDTree file explorer
-- 🧭 Telescope fuzzy finder
-- 📊 Barbar buffer tabs
-- 🧠 LSP support for multiple languages
-- 🤖 Autocompletion with snippets
-- 🌳 Treesitter syntax highlighting
-- 📝 Comment toggling
-- 🎯 Language-specific formatters
+| Category | Features |
+|----------|----------|
+| **UI & Theme** | VS Code-inspired color scheme, Clean interface, Status line with lualine |
+| **Navigation** | NERDTree file explorer, Telescope fuzzy finder, Buffer tabs with barbar |
+| **Code Intelligence** | LSP support for multiple languages, Smart autocompletion, Snippets |
+| **Syntax & Formatting** | Treesitter syntax highlighting, Language-specific formatters, Comment toggling |
+| **Development** | Terminal integration, Split window management, Project-wide search |
+| **Productivity** | Format on save, Quick file operations, Diagnostic navigation |
 
 ## 🚀 Installation Requirements
 
@@ -79,13 +102,10 @@ Open Neovim and run:
 |-----|------|--------|
 | `<leader>` | - | Space key |
 | `so` | Normal | Reload Neovim config |
-| `<A-,>` | Normal | Previous buffer (Alt+,) |
-| `<A-.>` | Normal | Next buffer (Alt+.) |
-| `<A-1>` to `<A-9>` | Normal | Go to buffer 1-9 |
-| `<A-0>` | Normal | Go to last buffer |
-| `<A-p>` | Normal | Pin/unpin buffer |
-| `<A-c>` | Normal | Close buffer |
-| `<C-p>` | Normal | Buffer pick mode |
+| `<C-h>` | Normal | Move to left window |
+| `<C-j>` | Normal | Move to below window |
+| `<C-k>` | Normal | Move to above window |
+| `<C-l>` | Normal | Move to right window |
 
 ### File Explorer (NERDTree)
 | Key | Action |
@@ -143,47 +163,60 @@ Open Neovim and run:
 | `<leader>fq` | Quit |
 | `<leader>gs` | Stop LSP |
 | `<leader>gr` | Restart LSP |
-| `<leader>sr` | Split Buffer Right |
-| `<leader>sl` | Split Buffer Left |
-
 
 ### Terminal Actions
 | Key | Mode | Action |
 |-----|------|--------|
-| `<leader>th` | normal | Open split terminal below |
-| `<leader>tv` | normal | Open split terminal right |
-| `<leader>q` | terminal | Close terminal |
-| `<leader>qc` | normal | Close terminal |
+| `<leader>th` | Normal | Open split terminal below |
+| `<leader>tv` | Normal | Open split terminal right |
+| `<leader>tt` | Normal | Toggle terminal |
+| `<leader>tf` | Normal | Toggle floating terminal |
+| `<leader>tg` | Normal | Open lazygit |
+| `<leader>tr` | Normal | Run current file |
+| `<leader>q` | Terminal | Close terminal |
+| `<leader>qc` | Normal | Close terminal |
+| `Esc` | Terminal | Exit to normal mode |
+| `Ctrl+h/j/k/l` | Terminal | Navigate between windows |
+
+### Split Windows
+| Key | Action |
+|-----|--------|
+| `<leader>v` | Split vertically (right) |
+| `<leader>V` | Split vertically (left) |
+| `<leader>s` | Split horizontally (below) |
+| `<leader>S` | Split horizontally (above) |
+| `<leader>=` | Equalize all splits |
+| `<leader>>` | Increase vertical split width |
+| `<leader><` | Decrease vertical split width |
+| `<leader>+` | Increase horizontal split height |
+| `<leader>-` | Decrease horizontal split height |
+
+### Buffer Management
+| Key | Action |
+|-----|--------|
+| `<A-,>` | Previous buffer |
+| `<A-.>` | Next buffer |
+| `<A-1>` to `<A-9>` | Go to buffer 1-9 |
+| `<A-0>` | Go to last buffer |
+| `<A-p>` | Pin/unpin buffer |
+| `<A-c>` | Close buffer |
+| `<C-p>` | Buffer pick mode |
+| `<leader>1` to `<leader>9` | Go to buffer 1-9 (alternative) |
+| `<leader>0` | Go to last buffer (alternative) |
 
 ## 🖥️ Supported Languages & Setup
-
-### C# (.NET)
-- **Server**: Omnisharp
-- **Features**: Full .NET support, Roslyn analyzers, import completion
-- **Auto-format**: Yes (on save)
-- **File types**: `.cs`
-
-### Rust
-- **Server**: rust-analyzer
-- **Features**: Full Rust support, diagnostics
-- **Auto-format**: Yes (on save)
-- **File types**: `.rs`
-
-### C/C++
-- **Server**: clangd
-- **Features**: Background indexing, clang-tidy
-- **Auto-format**: Yes (on save)
-- **File types**: `.c`, `.cpp`, `.h`, `.hpp`
-
-### Python
-- **Server**: pyright
-- **Features**: Type checking, auto imports
-- **Auto-format**: Yes (on save)
-- **File types**: `.py`
-
-### Other Languages
-- Lua, JavaScript, TypeScript, HTML, CSS, JSON, Markdown, Bash
-- All have Treesitter highlighting and basic LSP support
+| Language | LSP Server | Auto-format | File Types |
+|----------|------------|-------------|------------|
+| **C# (.NET)** | Omnisharp | Yes | `.cs` |
+| **Rust** | rust-analyzer | Yes | `.rs` |
+| **C/C++** | clangd | Yes | `.c`, `.cpp`, `.h`, `.hpp` |
+| **Python** | pyright | Yes | `.py` |
+| **JavaScript/TypeScript** | tsserver | Yes | `.js`, `.jsx`, `.ts`, `.tsx` |
+| **Lua** | lua_ls | Yes | `.lua` |
+| **HTML/CSS** | html/css LSP | Yes | `.html`, `.css` |
+| **Bash/Shell** | bashls | Yes | `.sh`, `.bash` |
+| **JSON/YAML** | jsonls/yamlls | Yes | `.json`, `.yaml`, `.yml` |
+| **Markdown** | marksman | Yes | `.md`, `.markdown` |
 
 ## ⚙️ Customization
 
@@ -234,11 +267,17 @@ lspconfig.lua_ls.setup {  -- Example for Lua
    - Verify LSP server supports formatting
    - Check file extension is in auto-format pattern
 
+5. **Terminal not closing:**
+   - Use `<leader>qc` in normal mode or `<leader>q` in terminal mode
+   - Ensure process has exited before closing
+
 ### Debug Commands
 ```vim
 :checkhealth      # Comprehensive health check
 :LspLog           # View LSP logs
 :TSInstallInfo    # Check Treesitter parsers
+:messages         # Show error messages
+:LspInfo          # Show LSP server information
 ```
 
 ## 🎯 Tips & Tricks
@@ -248,6 +287,9 @@ lspconfig.lua_ls.setup {  -- Example for Lua
 3. **Buffer management:** Use `Alt+,` and `Alt+.` to navigate quickly
 4. **Project-wide search:** Use `<leader>fg` with Telescope
 5. **Diagnostics:** Hover over errors with `K` or navigate with `[d`/`]d`
+6. **Quick file navigation:** Use `<leader>ff` to find files by name
+7. **Code actions:** Use `<leader>ca` for quick fixes and refactoring
+8. **Format code:** Use `<leader>fa` to format current buffer
 
 ## 🔄 Updates
 
@@ -267,6 +309,9 @@ To update Treesitter parsers:
 - [vim-plug GitHub](https://github.com/junegunn/vim-plug)
 - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
 - [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+- [ToggleTerm.nvim](https://github.com/akinsho/toggleterm.nvim)
+- [NERDTree](https://github.com/preservim/nerdtree)
+- [Barbar.nvim](https://github.com/romgrk/barbar.nvim)
 
 ---
 
