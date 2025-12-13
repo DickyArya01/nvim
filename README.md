@@ -153,7 +153,7 @@ Open Neovim and run:
 | `<leader>th` | normal | Open split terminal below |
 | `<leader>tv` | normal | Open split terminal right |
 | `<leader>q` | terminal | Close terminal |
-| `<leader>qc` | normal | Close terminal on normal mode |
+| `<leader>qc` | normal | Close terminal |
 
 ## 🖥️ Supported Languages & Setup
 
