@@ -494,7 +494,8 @@ nnoremap <leader>tv :set splitright<CR>:vsplit<CR>:terminal<CR>
 " Terminal mode navigation (MOST IMPORTANT!)
 
 " Close terminal from terminal mode
-tnoremap <leader>q <C-\><C-n>:close<CR>
+tnoremap <leader>q <C-\><C-n><CR>
+tnoremap <leader>qc <C-\><C-n>:close<CR>
 " Close terminal from normal mode
 nnoremap <leader>qc :close<CR>
 
