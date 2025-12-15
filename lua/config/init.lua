@@ -1,25 +1,17 @@
--- Main configuration file that loads all modules
+-- /lua/config/init.lua
 local M = {}
-
-local function safe_require(module)
-  local ok, result = pcall(require, module)
-  if not ok then
-    print("Warning: Failed to load module: " .. module .. " - " .. result)
-    return nil
-  end
-  return result
-end
 
 function M.setup()
   print("Loading config modules...")
 
-  -- Try to load each module
-  safe_require('config.ui')
-  safe_require('config.treesitter')
-  safe_require('config.cmp')
-  safe_require('config.lsp')
+  -- Load each module directly
+  require('config.ui').setup()
+  require('config.treesitter').setup()
+  require('config.cmp').setup()
+  require('config.lsp').setup()
 
   print("Config modules loaded successfully!")
 end
 
 return M
+
