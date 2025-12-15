@@ -55,7 +55,7 @@ function M.setup()
     local opts = { noremap=true, silent=true, buffer=bufnr }
 
     -- TypeScript-specific: organize imports on save
-    if client.name == "tsserver" then
+    if client.name == "ts_ls" then
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = bufnr,
         callback = function()
@@ -83,7 +83,7 @@ function M.setup()
     end
 
     -- For web development specific shortcuts
-    if client.name == "tsserver" or client.name == "html" or client.name == "cssls" then
+    if client.name == "ts_sl" or client.name == "html" or client.name == "cssls" then
       vim.keymap.set('n', '<leader>dc', vim.lsp.buf.declaration, opts)
       vim.keymap.set('n', '<leader>ii', vim.lsp.buf.implementation, opts)
     end
