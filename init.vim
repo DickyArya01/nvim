@@ -126,18 +126,7 @@ nnoremap <leader>gs :LspStop<CR>
 nnoremap <leader>gr :LspRestart<CR>
 
 
-
 " Quick file operations
-"inoremap <silent> <leader>fs <Esc><Cmd>lua SafeFormatAndSave()<CR>
-"inoremap <silent> <leader>fw <Esc><Cmd>lua SafeFormatAndQuit()<CR>
-"
-"nnoremap <silent> <leader>fs <Cmd>lua SafeFormatAndSave()<CR>
-"nnoremap <silent> <leader>fw <Cmd>lua SafeFormatAndQuit()<CR>
-"nnoremap <silent> <leader>fq :q<CR>
-
-inoremap <silent> <leader>fs <Esc>:w!<CR>
-inoremap <silent> <leader>fw <Esc>:wq!<CR>
-
 nnoremap <silent> <leader>fs :w!<CR>
 nnoremap <silent> <leader>fw :wq!<CR>
 nnoremap <silent> <leader>fq :q<CR>
