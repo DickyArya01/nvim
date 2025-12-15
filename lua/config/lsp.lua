@@ -65,14 +65,6 @@ function M.setup()
           })
         end,
       })
-      
-      -- Additional TypeScript shortcuts
-      vim.keymap.set('n', '<leader>oi', function()
-        vim.lsp.buf.code_action({
-          context = { only = { "source.organizeImports" } },
-          apply = true,
-        })
-      end, { noremap = true, silent = true, buffer = bufnr, desc = "Organize imports" })
     end
 
     -- Go to definition (with omnisharp special handling)
