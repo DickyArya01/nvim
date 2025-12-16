@@ -28,6 +28,17 @@ call plug#begin()
 
   " Treesitter for better syntax highlighting
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+  " git
+  " Inline git signs
+  Plug 'lewis6991/gitsigns.nvim'      
+  " Git commands
+  Plug 'tpope/vim-fugitive'           
+  " Diff views
+  Plug 'sindrets/diffview.nvim'       
+  " Conflict resolution
+  Plug 'akinsho/git-conflict.nvim'    
+
 call plug#end()
 
 filetype on

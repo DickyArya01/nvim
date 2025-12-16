@@ -1,0 +1,71 @@
+# ============================================
+# MANUAL TEMPLATE - Neovim Configuration
+# ============================================
+
+## 📋 PANDUAN PENGGUNAAN
+- Gunakan file ini sebagai template untuk manual baru
+- Copy file ini, rename, dan edit kontennya
+- Format menggunakan Markdown sederhana
+
+## 🏷️ FORMAT HEADER
+# JUDUL_UTAMA
+## SUB_JUDUL
+### SUB_SUB_JUDUL
+
+## 📝 FORMAT TEKS
+- **Teks tebal**: **teks tebal**
+- *Teks miring*: *teks miring*
+- `Kode inline`: `print("hello")`
+
+## 📋 FORMAT LIST
+- Item list dengan bullet
+- Item kedua
+  - Sub-item dengan indentasi
+
+## 🎯 FORMAT SHORTCUT
+- `<leader>xx`: Deskripsi shortcut
+- `gd`: Go to definition
+- `<C-n>`: Toggle NERDTree
+
+## 📊 FORMAT TABLE (Opsional)
+| Shortcut | Description | Category |
+|----------|-------------|----------|
+| `<leader>ff` | Find files | Navigation |
+| `gd` | Go to definition | Code |
+
+## 🔗 PEMISAH BAGIAN
+---  # atau === atau ***
+
+## 💡 CONTOH MANUAL LENGKAP
+
+# 🚀 Panduan Neovim Lengkap
+
+## 📁 File Navigation
+
+### File Operations
+- `<leader>ff`: Cari file dengan Telescope
+- `<leader>fg`: Live grep - cari teks di semua file
+- `<leader>fb`: List buffer yang terbuka
+
+### NERDTree
+- `<C-n>`: Toggle NERDTree
+- `<leader>n`: Fokus ke NERDTree
+- `<C-f>`: Cari file di NERDTree
+
+## 💻 Code Navigation
+
+### LSP Features
+- `gd`: Go to definition
+- `K`: Lihat dokumentasi (hover)
+- `<leader>ca`: Code actions
+- `<leader>rn`: Rename symbol
+
+### References & Implementation
+- `gr`: Cari references
+- `gi`: Go to implementation
+- `<leader>dc`: Go to declaration
+
+---
+
+> 💡 **Tips**: Gunakan Telescope untuk navigasi yang powerful!
+

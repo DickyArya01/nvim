@@ -1,0 +1,36 @@
+# Git Nvim
+
+## Navigation & Action
+- `]h` : Pindah ke hunk perubahan berikutnya
+- `[h` : Pindah ke hunk perubahan sebelumnya
+- `<leader>hs` : Stage hunk perubahan (normal mode)
+- `<leader>hr` : Reset hunk perubahan (normal mode)
+- `<leader>hs` : Stage hunk perubahan (visual mode)
+- `<leader>hr` : Reset hunk perubahan (visual mode)
+- `<leader>hp` : Preview hunk perubahan
+- `<leader>hb` : Tampilkan git blame untuk baris saat ini
+- `<leader>hd` : Buka diff untuk file saat ini
+- `<leader>tb` : Toggle git blame line
+
+## Git Operations
+- `<leader>gs` : Buka git status
+- `<leader>gc` : Git commit
+- `<leader>gp` : Git push
+- `<leader>gP` : Git pull
+- `<leader>ga` : Git add file saat ini
+- `<leader>gu` : Git unstage file saat ini
+- `<leader>gU` : Git discard changes file saat ini
+- `<leader>gl` : Git log
+- `<leader>gB` : Git branch list
+- `<leader>gf` : Git fetch
+- `<leader>gF` : Git pull dengan rebase
+
+## Conflict Resolution
+- `<leader>gco` : List semua conflict (quickfix)
+- `<leader>gcn` : Pindah ke conflict berikutnya
+- `<leader>gcp` : Pindah ke conflict sebelumnya
+- `<leader>gcb` : Pilih kedua perubahan (both)
+- `<leader>gci` : Pilih incoming change (theirs)
+- `<leader>gcc` : Pilih current change (ours)
+- `<leader>gcn` : Pilih none (hapus conflict)
+- `<leader>gcr` : Refresh conflict view

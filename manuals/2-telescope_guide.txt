@@ -8,11 +8,6 @@
 - `<leader>fb`: List open buffers
 - `<leader>fh`: Search help tags
 
-### Git Integration (if configured)
-- `<leader>gc`: Git commits
-- `<leader>gb`: Git branches
-- `<leader>gs`: Git status
-
 ## 🚀 ADVANCED USAGE
 
 ### Keymaps in Telescope

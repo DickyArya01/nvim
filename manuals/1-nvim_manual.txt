@@ -80,6 +80,8 @@
 - `<leader><Down>`: Decrease height
 - `<leader>=`: Equalize all windows
 
+
+
 ## 📚 BUFFER MANAGEMENT
 
 ### Buffer Navigation
@@ -131,8 +133,6 @@
 - `:PlugUpdate`: Update plugins
 - `:PlugClean`: Remove unused plugins
 - `:TSUpdate`: Update Treesitter parsers
-- `:Mason`: Install LSP servers
-
 ## 🎯 QUICK TIPS
 
 1. **Telescope** is your main search tool

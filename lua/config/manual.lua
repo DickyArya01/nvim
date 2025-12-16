@@ -15,7 +15,7 @@ local function read_manual_file(path)
   local lines = vim.split(content, "\n", { plain = true })
 
   local preview = {}
-  for i = 1, math.min(40, #lines) do
+  for i = 1, math.max(40, #lines) do
     table.insert(preview, lines[i])
   end
 
@@ -180,7 +180,7 @@ Edit this file at: ]] .. default_path
         actions.close(prompt_bufnr)
         
         if selection and selection.value then
-          vim.cmd("vsplit " .. vim.fn.fnameescape(selection.value.path))
+          vim.cmd("set splitright | vsplit " .. vim.fn.fnameescape(selection.value.path))
         end
       end)
       
@@ -189,7 +189,7 @@ Edit this file at: ]] .. default_path
         actions.close(prompt_bufnr)
         
         if selection and selection.value then
-          vim.cmd("vsplit " .. vim.fn.fnameescape(selection.value.path))
+          vim.cmd("set splitright | vsplit " .. vim.fn.fnameescape(selection.value.path))
         end
       end)
       
