@@ -3,6 +3,8 @@
 local M = {}
 
 function M.setup()
+  print(" ⴵ Setting up UI...")
+
   vim.lsp.semantic_tokens.enable = true
 
   local totalConfigCount = 2;
@@ -14,9 +16,9 @@ function M.setup()
 
     completeConfig = completeConfig + 1
 
-    print("Fidget setup complete")
+    print("   • Fidget setup complete")
   else
-    print("Fidget is not available")
+    print("   • Fidget is not available")
   end
 
   local lualine_ok, lualine = pcall(require, 'lualine')
@@ -63,17 +65,17 @@ function M.setup()
       extensions = {}
     })
     completeConfig = completeConfig + 1
-    print("lualine setup complete")
+    print("   • lualine setup complete")
   else
-    print("lualine is not available")
+    print("   • lualine is not available")
   end
 
   if completeConfig == 0 then
-    print("UI setup is failed")
+    print(" ⊘ UI setup is failed")
   elseif completeConfig > 0 and completeConfig < totalConfigCount then
-    print("UI setup partially success")
+    print(" ⚠︎ UI setup partially success")
   else  
-    print("UI setup complete")
+    print(" ✔ UI setup complete")
   end
 
 end

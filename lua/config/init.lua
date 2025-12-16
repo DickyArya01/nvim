@@ -1,8 +1,8 @@
--- /lua/config/init.lua
+-- Init lua
 local M = {}
 
 function M.setup()
-  print("Loading config modules...")
+  print("ⴵ Loading config module...")
 
   -- Load each module directly
   require('config.ui').setup()
@@ -11,7 +11,7 @@ function M.setup()
   require('config.lsp').setup()
   require('config.manual').setup()
 
-  print("Config modules loaded successfully!")
+  print("✔ Config modules loaded successfully")
 end
 
 return M

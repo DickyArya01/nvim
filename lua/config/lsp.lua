@@ -2,7 +2,7 @@
 local M = {}
 
 function M.setup()
-  print("Setting up LSP...")
+  print(" ⴵ Setting up LSP...")
   
   -- Use prettier directly via LSP if available
   local prettier_ok, prettier = pcall(require, 'prettier')
@@ -20,13 +20,14 @@ function M.setup()
         "less"
       },
     })
-    print("✓ Prettier setup complete")
+    print("   • Prettier setup complete")
   end
 
   -- Load LSP config with error handling
   local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
   if not lspconfig_ok then
-    print("LSPConfig not available")
+    print("   • LSPConfig not available")
+    print(" ⊘ LSP configuration failed to load")
     return
   end
 
@@ -36,9 +37,9 @@ function M.setup()
   if cmp_nvim_lsp_ok then
     capabilities = cmp_nvim_lsp.default_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
-    print("CMP-NVIM-LSP capabilities loaded")
+    print("   • CMP-NVIM-LSP capabilities loaded")
   else
-    print("CMP-NVIM-LSP not available")
+    print("   • CMP-NVIM-LSP not available")
   end
 
   -- Setup diagnostics globally
@@ -251,9 +252,9 @@ function M.setup()
     vim.keymap.set('v', '<C-_>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", 
       { noremap = true, silent = true })
     
-    print("Comment setup complete")
+    print("   • Comment setup complete")
   else
-    print("Comment not available")
+    print("   • Comment not available")
   end
 
   -- Diagnostics navigation
@@ -270,7 +271,7 @@ function M.setup()
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { noremap=true, silent=true })
   vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, { noremap=true, silent=true })
 
-  print("LSP configuration loaded successfully!")
+  print(" ✔ LSP configuration loaded successfully")
 end
 
 return M

@@ -3,9 +3,12 @@
 local M = {}
 
 function M.setup()
+  print(" ⴵ Setting up Treesitter...")
+
   local treesitter_ok, treesitter = pcall(require, 'nvim-treesitter')
   if not treesitter_ok then
-    print("nvim-treesitter plugin not installed or loaded")
+    print("   • nvim-treesitter plugin not installed or loaded")
+    print(" ⊘ Treesitter Setup Failed")
     return
   end
   
@@ -28,7 +31,7 @@ function M.setup()
       enable = true,
     },
   })
-  print("Treesitter setup complete")
+  print(" ✔ Treesitter Setup Complete")
 end
 
 return M

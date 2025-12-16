@@ -2,19 +2,19 @@
 local M = {}
 
 function M.setup()
-  print("Setting up autocompletion...")
+  print(" ⴵ Setting up Autocompletion...")
   
   -- Load luasnip with error handling
   local luasnip_ok, luasnip = pcall(require, 'luasnip')
   if not luasnip_ok then
-    print("Luasnip not available")
+    print("   • Luasnip not available")
     return
   end
   
   -- Load vscode snippets
   local loaders_ok = pcall(require('luasnip.loaders.from_vscode').lazy_load)
   if not loaders_ok then
-    print("Could not load vscode snippets")
+    print("   • Could not load vscode snippets")
   end
   
   -- Setup luasnip
@@ -26,7 +26,7 @@ function M.setup()
   -- Load cmp with error handling
   local cmp_ok, cmp = pcall(require, 'cmp')
   if not cmp_ok then
-    print("CMP not available")
+    print("   • CMP not available")
     return
   end
   
@@ -104,10 +104,10 @@ function M.setup()
   -- Create custom snippets after a delay
   vim.defer_fn(function()
     _G.create_html_snippets()
-    print("Custom HTML snippets created")
+    print("   • Custom HTML snippets created")
   end, 1000)
   
-  print("Autocompletion setup complete")
+  print(" ✔ Autocompletion setup complete")
 end
 
 return M
