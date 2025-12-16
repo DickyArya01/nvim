@@ -1,0 +1,153 @@
+# 🚀 Manual Konfigurasi Neovim
+
+## 📒 MANUAL
+
+### How to use manual
+- `<leader>mm`: Browse all manual files with live preview
+- `<leader>mn`: Create new manual file with template
+- `<leader>me`: Edit existing manual files
+- `<Enter>`: (in browser) Open selected manual in vertical split
+- `<C-e>`: (in browser) Edit selected manual directly
+- `<C-j>`: (in preview) Scroll down in manual preview
+- `<C-k>`: (in preview) Scroll up in manual preview 
+- `<Esc>`/ `q`: Close manual browser
+
+## 📁 FILE NAVIGATION
+
+### File Operations
+- `<leader>ff`: Find files (Telescope)
+- `<leader>fg`: Live grep - search text
+- `<leader>fb`: Buffer list
+- `<leader>fh`: Help tags
+
+### NERDTree Navigation
+- `<C-n>`: Toggle NERDTree
+- `<leader>n`: Focus NERDTree
+- `<C-f>`: Find in NERDTree
+- `<C-t>`: Toggle NERDTree
+- `<C-h>`: Show hidden files
+- `<C-j>`: Refresh root
+
+## 💻 CODE NAVIGATION
+
+### LSP Features
+- `gd`: Go to definition
+- `K`: Hover documentation
+- `gr`: Find references
+- `gi`: Go to implementation
+- `<leader>dc`: Go to declaration
+
+### Code Actions
+- `<leader>ca`: Show code actions
+- `<leader>rn`: Rename symbol
+- `<leader>f`: Format current file
+- `<leader>fa`: Auto format on save
+- `<leader>oi`: Organize imports (TypeScript)
+
+## 🔧 EDITING
+
+### Comments
+- `<C-_>`: Toggle comment (Ctrl+/)
+1. Select text in visual mode
+2. Press `<C-_>` to comment/uncomment
+
+### Formatting
+- Auto format on save for:
+  - JavaScript/TypeScript (.js, .ts, .jsx, .tsx)
+  - Lua (.lua)
+  - Python (.py)
+  - C/C++ (.c, .cpp, .h)
+  - HTML/CSS (.html, .css)
+
+## 🪟 WINDOW MANAGEMENT
+
+### Window Navigation
+- `<leader>hh`: Move to left window
+- `<leader>ll`: Move to right window  
+- `<leader>kk`: Move to up window
+- `<leader>jj`: Move to down window
+
+### Window Splits
+- `<leader>sr`: Vertical split (right)
+- `<leader>sl`: Vertical split (left)
+- `<leader>sd`: Horizontal split (down)
+- `<leader>su`: Horizontal split (up)
+
+### Window Resizing
+- `<leader><Right>`: Increase width
+- `<leader><Left>`: Decrease width
+- `<leader><Up>`: Increase height
+- `<leader><Down>`: Decrease height
+- `<leader>=`: Equalize all windows
+
+## 📚 BUFFER MANAGEMENT
+
+### Buffer Navigation
+- `<A-,>`: Previous buffer (Alt+,)
+- `<A-.>`: Next buffer (Alt+.)
+- `<leader>w1`-`<leader>w9`: Go to buffer 1-9
+- `<leader>w0`: Go to last buffer
+
+### Buffer Operations
+- `<A-c>`: Close current buffer
+- `<A-p>`: Pin/unpin buffer
+- `<C-p>`: Buffer pick mode
+- `<C-s-p>`: Buffer pick delete mode
+
+## 🖥️ TERMINAL
+
+### Terminal Operations
+- `<leader>tt`: Open terminal in new tab
+- `<leader>th`: Horizontal terminal split
+- `<leader>tv`: Vertical terminal split
+
+### Terminal Navigation
+- `<leader>q`: Exit terminal mode
+- `<leader>qc`: Close terminal window
+- In terminal mode: Ctrl+\ then Ctrl+n
+
+## 📝 LSP DIAGNOSTICS
+
+### Diagnostic Navigation
+- `[d`: Previous diagnostic
+- `]d`: Next diagnostic
+- `<leader>e`: Show diagnostic in float
+- `<leader>d`: Show line diagnostic
+
+### Diagnostic Actions
+- `<leader>ca` on error: Show fixes
+- Auto-fix on save for some languages
+
+## ⚙️ CONFIGURATION
+
+### Config Management
+- `so`: Reload Neovim config
+- `<leader>mm`: Show this manual
+- `<leader>gs`: Stop LSP server
+- `<leader>gr`: Restart LSP server
+
+### Plugin Management
+- `:PlugInstall`: Install plugins
+- `:PlugUpdate`: Update plugins
+- `:PlugClean`: Remove unused plugins
+- `:TSUpdate`: Update Treesitter parsers
+- `:Mason`: Install LSP servers
+
+## 🎯 QUICK TIPS
+
+1. **Telescope** is your main search tool
+2. Use **code actions** (`<leader>ca`) for quick fixes
+3. **Format on save** is enabled automatically
+4. Press **?** in NERDTree for help
+5. Use **buffer pick** (`<C-p>`) to quickly switch buffers
+
+---
+
+## 📍 FILE LOCATIONS
+
+- Main config: `~/.config/nvim/init.vim`
+- Lua modules: `~/.config/nvim/lua/config/`
+- Manuals: `~/.config/nvim/manuals/`
+- Plugins: `~/.local/share/nvim/plugged/`
+
+> 📚 **Note**: Edit this manual at `~/.config/nvim/manuals/nvim_manual.txt`

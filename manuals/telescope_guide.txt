@@ -1,0 +1,41 @@
+# 🔭 Telescope Comprehensive Guide
+
+## 🎯 BASIC COMMANDS
+
+### File Search
+- `<leader>ff`: Find files in current directory
+- `<leader>fg`: Live grep - search text in files
+- `<leader>fb`: List open buffers
+- `<leader>fh`: Search help tags
+
+### Git Integration (if configured)
+- `<leader>gc`: Git commits
+- `<leader>gb`: Git branches
+- `<leader>gs`: Git status
+
+## 🚀 ADVANCED USAGE
+
+### Keymaps in Telescope
+- `<Enter>`: Open selected file
+- `<Ctrl-x>`: Open in horizontal split
+- `<Ctrl-v>`: Open in vertical split
+- `<Ctrl-t>`: Open in new tab
+- `<Ctrl-q>`: Send to quickfix list
+- `<Ctrl-u>`: Clear prompt
+- `<Esc>`: Close Telescope
+
+### Filtering & Navigation
+- Type to filter results
+- `<Tab>`: Cycle through selections
+- `<S-Tab>`: Cycle backwards
+- `<Up>/<Down>`: Navigate results
+
+## 💡 PRACTICAL EXAMPLES
+
+### Search in Specific Directory
+```lua
+-- Search in ~/projects directory
+require('telescope.builtin').find_files({
+  cwd = "~/projects",
+  hidden = true,
+})

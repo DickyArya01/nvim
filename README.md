@@ -7,17 +7,15 @@ This Neovim configuration is optimized for modern software development with comp
 1. [✨ Features](#-features)
 2. [🚀 Installation Requirements](#-installation-requirements)
 3. [🔧 Configuration Installation](#-configuration-installation)
-4. [⌨️ Keybindings Reference](#-keybindings-reference)
-   - [General Navigation](#general-navigation)
-   - [File Explorer (NERDTree)](#file-explorer-nerdtree)
-   - [Telescope (Fuzzy Finder)](#telescope-fuzzy-finder)
-   - [LSP (Language Server Protocol)](#lsp-language-server-protocol)
-   - [Autocompletion](#autocompletion)
-   - [Code Commenting](#code-commenting)
-   - [Quick Actions](#quick-actions)
-   - [Terminal Actions](#terminal-actions)
-   - [Split Windows](#split-windows)
+4. [📒 Manual](#-manual)
+   - [Manual System](#manual-system)
+   - [File Navigation](#file-navigation)
+   - [Code Navigation & LSP](#code-navigation-&-lsp)
+   - [Editing & Formatting](#editing-and-formatting)
+   - [Window Management](#window-management)
    - [Buffer Management](#buffer-management)
+   - [Terminal](#terminal)
+   - [Configuration & Utilities](#configuration-utilities)
 5. [🖥️ Supported Languages & Setup](#-supported-languages--setup)
 6. [⚙️ Customization](#-customization)
 7. [🐛 Troubleshooting](#-troubleshooting)
@@ -95,121 +93,117 @@ Open Neovim and run:
 :TSInstall c cpp python rust lua vim vimdoc javascript typescript html css json markdown bash
 ```
 
-## ⌨️ Keybindings Reference
+## 📒 Manual
 
-### General Navigation
-| Key | Mode | Action |
-|-----|------|--------|
-| `<leader>` | - | Space key |
-| `so` | Normal | Reload Neovim config |
-| `<C-h>` | Normal | Move to left window |
-| `<C-j>` | Normal | Move to below window |
-| `<C-k>` | Normal | Move to above window |
-| `<C-l>` | Normal | Move to right window |
+### 📚 Manual System
+| Key | Action | Description |
+|-----|--------|-------------|
+| **`<leader>mm`** | **Open Manual Browser** | Browse all manual files with live preview |
+| **`<leader>mn`** | **Create New Manual** | Create new manual file with template |
+| **`<leader>me`** | **Edit Manual** | Edit existing manual files |
+| **`<Enter>`** (in browser) | **Open Manual** | Open selected manual in vertical split |
+| **`<C-e>`** (in browser) | **Edit Manual** | Edit selected manual directly |
+| **`<C-j>`** (in preview) | **Scroll Down** | Scroll down in manual preview |
+| **`<C-k>`** (in preview) | **Scroll Up** | Scroll up in manual preview |
+| **`<Esc>`** / **`q`** | **Close Browser** | Close manual browser |
 
-### File Explorer (NERDTree)
+### 📁 File Navigation
 | Key | Action |
 |-----|--------|
+| `<C-n>` | Toggle NERDTree file explorer |
 | `<leader>n` | Focus NERDTree |
-| `<C-n>` | Open NERDTree |
-| `<C-t>` | Toggle NERDTree |
 | `<C-f>` | Find current file in NERDTree |
-| `<C-h>` | Show hidden files |
-| `<C-j>` | Refresh NERDTree |
-
-### Telescope (Fuzzy Finder)
-| Key | Action |
-|-----|--------|
-| `<leader>ff` | Find files |
+| `<C-h>` | Show hidden files in NERDTree |
+| `<leader>ff` | Find files (Telescope) |
 | `<leader>fg` | Live grep in files |
-| `<leader>fb` | Find buffers |
-| `<leader>fh` | Help tags |
+| `<leader>fb` | List open buffers |
+| `<leader>fh` | Search help tags |
 
-### LSP (Language Server Protocol)
+### 💻 Code Navigation & LSP
 | Key | Action |
 |-----|--------|
 | `gd` | Go to definition |
-| `fr` / `gr` | Find references |
-| `K` | Hover information |
-| `<leader>fn` | Rename symbol |
-| `<leader>ca` | Code actions |
-| `<leader>fa` | Format document |
+| `K` | Hover documentation |
+| `gr` | Find references |
 | `gi` | Go to implementation |
 | `[d` | Previous diagnostic |
 | `]d` | Next diagnostic |
-| `<leader>e` | Show diagnostics |
-| `<leader>d` | Line diagnostics |
-| `<leader>k` | Signature help |
+| `<leader>e` | Show diagnostic in float |
+| `<leader>ca` | Code actions menu |
+| `<leader>rn` | Rename symbol |
+| `<leader>f` | Format current file |
+| `<leader>fa` | Auto-format on save |
 
-### Autocompletion
-| Key | Action |
-|-----|--------|
-| `<C-Space>` | Trigger completion |
-| `<Tab>` | Next completion item or expand snippet |
-| `<S-Tab>` | Previous completion item |
-| `<CR>` | Confirm selection |
-
-### Code Commenting
+### 🔧 Editing & Formatting
 | Key | Mode | Action |
 |-----|------|--------|
-| `Ctrl+/` | Normal | Toggle line comment |
-| `Ctrl+/` | Visual | Toggle block comment |
+| `<C-_>` (Ctrl+/) | Normal | Toggle line comment |
+| `<C-_>` (Ctrl+/) | Visual | Toggle block comment |
+| `<leader>fs` | Normal | Format and save |
+| `<leader>fw` | Normal | Format and save+quit |
+| `<C-Space>` | Insert | Trigger autocompletion |
+| `<Tab>` | Insert | Next completion item |
+| `<S-Tab>` | Insert | Previous completion item |
 
-### Quick Actions
+### 🪟 Window Management
 | Key | Action |
 |-----|--------|
-| `<leader>fs` | Format and save |
-| `<leader>fw` | Format and save+quit |
-| `<leader>fq` | Quit |
-| `<leader>gs` | Stop LSP |
-| `<leader>gr` | Restart LSP |
+| `<leader>hh` / `<C-h>` | Move to left window |
+| `<leader>ll` / `<C-l>` | Move to right window |
+| `<leader>kk` / `<C-k>` | Move to up window |
+| `<leader>jj` / `<C-j>` | Move to down window |
+| `<leader>sr` | Vertical split (right) |
+| `<leader>sl` | Vertical split (left) |
+| `<leader>sd` | Horizontal split (down) |
+| `<leader>su` | Horizontal split (up) |
+| `<leader>=` | Equalize all windows |
+| `<leader><arrow keys>` | Resize windows |
 
-### Terminal Actions
-| Key | Mode | Action |
-|-----|------|--------|
-| `<leader>tt` | Normal | Open terminal |
-| `<leader>th` | Normal | Open split terminal below |
-| `<leader>tv` | Normal | Open split terminal right |
-| `<leader>q` | Terminal | Close terminal |
-| `<leader>qc` | Normal | Close terminal |
-
-### Split Windows
+### 📚 Buffer Management
 | Key | Action |
 |-----|--------|
-| `<leader>sr` | Split vertically (right) |
-| `<leader>sl` | Split vertically (left) |
-| `<leader>sd` | Split horizontally (below) |
-| `<leader>su` | Split horizontally (above) |
-| `<leader>=` | Equalize all splits |
-| `<leader><Right>` | Increase vertical split width |
-| `<leader><Left>` | Decrease vertical split width |
-| `<leader><Up>` | Increase horizontal split height |
-| `<leader><Down>` | Decrease horizontal split height |
-
-### Buffer Management
-| Key | Action |
-|-----|--------|
-| `<A-,>` | Previous buffer |
-| `<A-.>` | Next buffer |
-| `<leader>w1` to `<leader>w9` | Go to buffer 1-9 |
+| `<A-,>` (Alt+,) | Previous buffer |
+| `<A-.>` (Alt+.) | Next buffer |
+| `<A-c>` (Alt+c) | Close current buffer |
+| `<leader>w1`-`<leader>w9` | Go to buffer 1-9 |
 | `<leader>w0` | Go to last buffer |
-| `<A-p>` | Pin/unpin buffer |
-| `<A-c>` | Close buffer |
-| `<C-p>` | Buffer pick mode |
+| `<A-p>` (Alt+p) | Pin/unpin buffer |
+| `<C-p>` (Ctrl+p) | Buffer pick mode |
 
-## 🖥️ Supported Languages & Setup
-| Language | LSP Server | Auto-format | File Types |
-|----------|------------|-------------|------------|
-| **C# (.NET)** | Omnisharp | Yes | `.cs` |
-| **Rust** | rust-analyzer | Yes | `.rs` |
-| **C/C++** | clangd | Yes | `.c`, `.cpp`, `.h`, `.hpp` |
-| **Python** | pyright | Yes | `.py` |
-| **JavaScript/TypeScript** | tsserver | Yes | `.js`, `.jsx`, `.ts`, `.tsx` |
-| **Lua** | lua_ls | Yes | `.lua` |
-| **HTML/CSS** | html/css LSP | Yes | `.html`, `.css` |
-| **Bash/Shell** | bashls | Yes | `.sh`, `.bash` |
-| **JSON/YAML** | jsonls/yamlls | Yes | `.json`, `.yaml`, `.yml` |
-| **Markdown** | marksman | Yes | `.md`, `.markdown` |
+### 🖥️ Terminal
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>tt` | Normal | Open terminal in new tab |
+| `<leader>th` | Normal | Horizontal terminal split |
+| `<leader>tv` | Normal | Vertical terminal split |
+| `<leader>q` | Terminal | Exit terminal mode |
+| `<leader>qc` | Normal | Close terminal window |
+
+### ⚙️ Configuration & Utilities
+| Key | Action |
+|-----|--------|
+| `so` | Reload Neovim configuration |
+| `<leader>gs` | Stop LSP server |
+| `<leader>gr` | Restart LSP server |
+| `<leader>fq` | Quit Neovim |
+
+---
+
+## 🎯 Quick Reference Guide
+
+### Most Used Shortcuts:
+1. **`<leader>mm`** - Open manual (learn everything here!)
+2. **`<leader>ff`** - Find files quickly
+2. **`<leader>fg`** - Find keyword quickly
+3. **`gd`** - Go to code definition
+4. **`<leader>ca`** - Quick fixes & refactoring
+5. **`<C-_>`** - Toggle comments
+
+### Manual Location:
+All manuals are stored in `~/.config/nvim/manuals/`
+- Press `<leader>mm` to browse
+- Press `<leader>mn` to create new
+- Press `<leader>me` to edit existing
 
 ## ⚙️ Customization
 

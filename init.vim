@@ -28,7 +28,6 @@ call plug#begin()
 
   " Treesitter for better syntax highlighting
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
 call plug#end()
 
 filetype on
