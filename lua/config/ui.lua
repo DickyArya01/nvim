@@ -10,6 +10,19 @@ function M.setup()
   local totalConfigCount = 2;
   local completeConfig = 0;
 
+  local winmove_ok, winmove = pcall(require, 'winmove')
+
+  if winmove_ok then
+
+    vim.keymap.set('n', '<leader>wm', function()
+      winmove.start_mode('move')
+    end)
+    
+    print("   • winmove setup complete")
+  else
+    print("   • winmove is not available")
+  end
+
   local fidget_ok, figet = pcall(require, "fidget")
   if fidget_ok then 
     figet.setup({})

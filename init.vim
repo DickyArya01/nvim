@@ -25,6 +25,7 @@ call plug#begin()
 
   Plug 'j-hui/fidget.nvim'
   Plug 'numToStr/Comment.nvim'
+  Plug 'MisanthropicBit/winmove.nvim'
 
   " Treesitter for better syntax highlighting
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}

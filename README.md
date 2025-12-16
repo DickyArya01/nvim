@@ -158,6 +158,9 @@ Open Neovim and run:
 | `<leader>su` | Horizontal split (up) |
 | `<leader>=` | Equalize all windows |
 | `<leader><arrow keys>` | Resize windows |
+| `<leader>wm` | Move window mode |
+| `h/j/k/l` | (move window mode) Move window left/down/up/right |
+| `H/J/K/L` | (move window mode) Move window far left/down/up/right |
 
 ### 📚 Buffer Management
 | Key | Action |

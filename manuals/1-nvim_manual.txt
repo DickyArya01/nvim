@@ -80,6 +80,10 @@
 - `<leader><Down>`: Decrease height
 - `<leader>=`: Equalize all windows
 
+### Window move
+- `<leader>wm`: Move window mode
+- `h/j/k/l`: (move window mode) Move window left/down/up/right
+- `H/J/K/L`: (move window mode) Move window far left/down/up/right
 
 
 ## 📚 BUFFER MANAGEMENT
@@ -133,6 +137,7 @@
 - `:PlugUpdate`: Update plugins
 - `:PlugClean`: Remove unused plugins
 - `:TSUpdate`: Update Treesitter parsers
+
 ## 🎯 QUICK TIPS
 
 1. **Telescope** is your main search tool
