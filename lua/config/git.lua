@@ -165,7 +165,7 @@ function M.setup()
     end
   end, 100)
   
-  print("✅ Git module loaded successfully!")
+  print(" ✔ Git module loaded successfully!")
 end
 
 return M
