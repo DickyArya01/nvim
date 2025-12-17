@@ -279,13 +279,34 @@ function M.edit_manual()
   end
   
   -- Simple selection
-  print("\nSelect manual to edit:")
+  local options_text = "";
+  local templateCount = 0;
+
+  options_text = options_text .. "Select manual to edit:\n\n"
+
   for i, file in ipairs(files) do
     local name = vim.fn.fnamemodify(file, ":t")
-    print(string.format("  %d. %s", i, name))
+    if name == "TEMPLATE.txt" then
+      templateCount = templateCount + 1;
+      goto continue
+    end
+
+    options_text = options_text .. string.format("[%d] %s\n", i, name)
+
+    ::continue::
   end
+
+  options_text = options_text .. "\n"
+
+  print(options_text)
   
-  local choice = vim.fn.input("\nEnter number: ")
+  local choice = vim.fn.input("\nEnter number (1 - ".. (#files - templateCount) .."): ")
+
+  if choice == "" then
+    print("Editing manual cancelled")
+    return
+  end
+
   local num = tonumber(choice)
   
   if num and num >= 1 and num <= #files then
