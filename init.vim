@@ -82,6 +82,9 @@ nnoremap <C-j> :NERDTreeRefreshRoot<CR>
 "=== Barbar ===
 lua require('nvim-web-devicons').setup { default = true; }
 
+"=== config lua ===
+lua require('config').setup()
+
 " Move to previous/next
 nnoremap <silent>    <A-,> <Cmd>BufferPrevious<CR>
 nnoremap <silent>    <A-.> <Cmd>BufferNext<CR>
@@ -120,10 +123,6 @@ nnoremap <silent> <Space>bn <Cmd>BufferOrderByName<CR>
 nnoremap <silent> <Space>bd <Cmd>BufferOrderByDirectory<CR>
 nnoremap <silent> <Space>bl <Cmd>BufferOrderByLanguage<CR>
 nnoremap <silent> <Space>bw <Cmd>BufferOrderByWindowNumber<CR>
-
-"=== Lua ===
-lua require('config').setup()
-"=== Lua ===!
 
 "=== Telescope ===
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
