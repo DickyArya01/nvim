@@ -39,7 +39,7 @@
 
 ### Code Actions
 - `<leader>ca`: Show code actions
-- `<leader>rn`: Rename symbol
+- `<leader>fn`: Rename symbol
 - `<leader>f`: Format current file
 - `<leader>fa`: Auto format on save
 - `<leader>oi`: Organize imports (TypeScript)
