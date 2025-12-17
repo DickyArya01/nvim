@@ -76,7 +76,7 @@ function M.setup()
     end
 
     -- For web development specific shortcuts
-    if client.name == "ts_sl" or client.name == "html" or client.name == "cssls" then
+    if client.name == "ts_ls" or client.name == "html" or client.name == "cssls" then
       vim.keymap.set('n', '<leader>dc', vim.lsp.buf.declaration, opts)
       vim.keymap.set('n', '<leader>ii', vim.lsp.buf.implementation, opts)
     end
