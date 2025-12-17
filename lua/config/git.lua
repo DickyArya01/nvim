@@ -108,10 +108,6 @@ function M.setup()
   vim.keymap.set('n', '<leader>gp', ':Git push<CR>', { desc = "Git push" })
   vim.keymap.set('n', '<leader>gP', ':Git pull<CR>', { desc = "Git pull" })
   
-  -- Quick stage/unstage
-  vim.keymap.set('n', '<leader>ga', ':Git add %<CR>', { desc = "Git add current file" })
-  vim.keymap.set('n', '<leader>gu', ':Git reset %<CR>', { desc = "Git unstage current file" })
-  
   -- Browse
   vim.keymap.set('n', '<leader>gl', ':Git log<CR>', { desc = "Git log" })
   vim.keymap.set('n', '<leader>gB', ':Git branch<CR>', { desc = "Git branches" })

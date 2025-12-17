@@ -132,8 +132,8 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 "=== Additional Keymaps ===
 " Quick navigation
-nnoremap <leader>gs :LspStop<CR>
-nnoremap <leader>gr :LspRestart<CR>
+nnoremap <leader>ls :LspStop<CR>
+nnoremap <leader>lr :LspRestart<CR>
 
 
 " Quick file operations

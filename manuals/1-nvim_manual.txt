@@ -35,14 +35,16 @@
 - `K`: Hover documentation
 - `gr`: Find references
 - `gi`: Go to implementation
-- `<leader>dc`: Go to declaration
+- `<leader>dc`: (html/css) Go to declaration
+- `<leader>ii`: (html/css) implementation
+
+
 
 ### Code Actions
 - `<leader>ca`: Show code actions
 - `<leader>fn`: Rename symbol
 - `<leader>f`: Format current file
 - `<leader>fa`: Auto format on save
-- `<leader>oi`: Organize imports (TypeScript)
 
 ## 🔧 EDITING
 
@@ -119,6 +121,7 @@
 - `]d`: Next diagnostic
 - `<leader>e`: Show diagnostic in float
 - `<leader>d`: Show line diagnostic
+- `<leader>k`: Show line signature
 
 ### Diagnostic Actions
 - `<leader>ca` on error: Show fixes
@@ -129,8 +132,8 @@
 ### Config Management
 - `so`: Reload Neovim config
 - `<leader>mm`: Show this manual
-- `<leader>gs`: Stop LSP server
-- `<leader>gr`: Restart LSP server
+- `<leader>ls`: Stop LSP server
+- `<leader>lr`: Restart LSP server
 
 ### Plugin Management
 - `:PlugInstall`: Install plugins
