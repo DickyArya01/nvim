@@ -5,19 +5,19 @@ local M = {}
 function M.setup()
   print(" ⴵ Setting up Treesitter...")
 
-  local treesitter_ok, treesitter = pcall(require, 'nvim-treesitter')
+  local treesitter_ok, _ = pcall(require, 'nvim-treesitter')
   if not treesitter_ok then
     print("   • nvim-treesitter plugin not installed or loaded")
     print(" ⊘ Treesitter Setup Failed")
     return
   end
-  
-  local configs_ok, configs = pcall(require, 'nvim-treesitter.configs')
+
+  local configs_ok, configs = pcall(require, 'nvim-treesitter.config')
   if not configs_ok then
     print("nvim-treesitter.configs module not found")
     return
   end
-  
+
   configs.setup({
     ensure_installed = {
       'c', 'cpp', 'python', 'rust', 'lua', 'vim', 'vimdoc',
@@ -35,4 +35,3 @@ function M.setup()
 end
 
 return M
-
