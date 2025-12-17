@@ -3,33 +3,33 @@ local M = {}
 
 function M.setup()
   print(" ⴵ Setting up Autocompletion...")
-  
+
   -- Load luasnip with error handling
   local luasnip_ok, luasnip = pcall(require, 'luasnip')
   if not luasnip_ok then
     print("   • Luasnip not available")
     return
   end
-  
+
   -- Load vscode snippets
   local loaders_ok = pcall(require('luasnip.loaders.from_vscode').lazy_load)
   if not loaders_ok then
     print("   • Could not load vscode snippets")
   end
-  
+
   -- Setup luasnip
   luasnip.config.setup({
     history = true,
     updateevents = "TextChanged,TextChangedI",
   })
-  
+
   -- Load cmp with error handling
   local cmp_ok, cmp = pcall(require, 'cmp')
   if not cmp_ok then
     print("   • CMP not available")
     return
   end
-  
+
   -- Setup cmp
   cmp.setup({
     snippet = {
@@ -79,34 +79,35 @@ function M.setup()
       end,
     },
   })
-  
+
   -- HTML snippets helper function
   _G.create_html_snippets = function()
     local s = luasnip.snippet
     local t = luasnip.text_node
     local i = luasnip.insert_node
-    
+
     luasnip.add_snippets("html", {
       s("html5", {
-        t({"<!DOCTYPE html>", "<html lang=\"en\">", "<head>", "  <meta charset=\"UTF-8\">", 
-           "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">", 
-           "  <title>"}), i(1, "Document"), t({"</title>", "</head>", "<body>", "  "}), i(2), t({"", "</body>", "</html>"})
+        t({ "<!DOCTYPE html>", "<html lang=\"en\">", "<head>", "  <meta charset=\"UTF-8\">",
+          "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+          "  <title>" }), i(1, "Document"), t({ "</title>", "</head>", "<body>", "  " }), i(2), t({ "", "</body>",
+        "</html>" })
       }),
       s("div", {
         t("<div"), i(1), t(">"), i(2), t("</div>")
       }),
       s("php", {
-        t({"<?php", ""}), i(1), t({"", "?>"})
+        t({ "<?php", "" }), i(1), t({ "", "?>" })
       }),
     })
   end
-  
+
   -- Create custom snippets after a delay
   vim.defer_fn(function()
     _G.create_html_snippets()
-    print("   • Custom HTML snippets created")
+    print("✔ Custom HTML snippets created")
   end, 1000)
-  
+
   print(" ✔ Autocompletion setup complete")
 end
 
