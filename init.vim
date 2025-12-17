@@ -4,12 +4,14 @@ call plug#begin()
   Plug 'nvim-tree/nvim-web-devicons'
   Plug 'romgrk/barbar.nvim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+  Plug 'nvim-telescope/telescope.nvim'
 
   " Plugin untuk LSP bawaan Neovim
-  Plug 'neovim/nvim-lspconfig'
   Plug 'Hoffs/omnisharp-extended-lsp.nvim'
   Plug 'nvim-lualine/lualine.nvim'
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'b0o/schemastore.nvim'
 
   " Untuk autocompletion
   Plug 'hrsh7th/nvim-cmp'
@@ -28,7 +30,7 @@ call plug#begin()
   Plug 'MisanthropicBit/winmove.nvim'
 
   " Treesitter for better syntax highlighting
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter'
 
   " git
   " Inline git signs
