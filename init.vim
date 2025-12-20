@@ -176,11 +176,22 @@ nnoremap <leader>tv :set splitright<CR>:vsplit<CR>:terminal<CR>
 
 " Terminal mode navigation (MOST IMPORTANT!)
 
+function CloseOrKillTerminal()
+  if &buftype != 'terminal'
+    return
+  endif
+
+  bdelete!
+endfunction
+
 " Close terminal from terminal mode
 tnoremap <leader>q <C-\><C-n><CR>
-tnoremap <leader>qc <C-\><C-n>:close<CR>
+tnoremap <Esc> <C-\><C-n><CR>
+
+tnoremap <silent> <leader>qc <C-\><C-n>:call CloseOrKillTerminal()<CR>
+
 " Close terminal from normal mode
-nnoremap <leader>qc :close<CR>
+nnoremap <silent> <ESC> :call CloseOrKillTerminal()<CR>
 
 
 

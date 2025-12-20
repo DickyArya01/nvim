@@ -110,9 +110,9 @@
 - `<leader>tv`: Vertical terminal split
 
 ### Terminal Navigation
-- `<leader>q`: Exit terminal mode
-- `<leader>qc`: Close terminal window
-- In terminal mode: Ctrl+\ then Ctrl+n
+- `<ESC>/<leader>q`: Exit terminal mode
+- `<leader>qc`: (terminal mode) Close terminal window
+- `<ESC>`: (normal mode) Close terminal window
 
 ## 📝 LSP DIAGNOSTICS
 
