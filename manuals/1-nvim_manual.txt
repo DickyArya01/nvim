@@ -38,8 +38,6 @@
 - `<leader>dc`: (html/css) Go to declaration
 - `<leader>ii`: (html/css) implementation
 
-
-
 ### Code Actions
 - `<leader>ca`: Show code actions
 - `<leader>fn`: Rename symbol
