@@ -167,6 +167,8 @@ Open Neovim and run:
 |-----|--------|
 | `<A-,>` (Alt+,) | Previous buffer |
 | `<A-.>` (Alt+.) | Next buffer |
+| `<A-Left>` (Alt+LeftArrow) | Move buffer to left |
+| `<A-Right>` (Alt+RightArrow) | Next buffer to right |
 | `<A-c>` (Alt+c) | Close current buffer |
 | `<leader>w1`-`<leader>w9` | Go to buffer 1-9 |
 | `<leader>w0` | Go to last buffer |

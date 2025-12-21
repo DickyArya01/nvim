@@ -91,6 +91,8 @@
 ### Buffer Navigation
 - `<A-,>`: Previous buffer (Alt+,)
 - `<A-.>`: Next buffer (Alt+.)
+- `<A-Left>`: Move buffer to left
+- `<A-Right>`: Next buffer to right
 - `<leader>w1`-`<leader>w9`: Go to buffer 1-9
 - `<leader>w0`: Go to last buffer
 
