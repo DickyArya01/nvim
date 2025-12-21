@@ -134,14 +134,21 @@ Edit this file at: ]] .. default_path
         vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, preview_lines)
         -- Set filetype based on extension
         if entry.value.filename:match("%.txt$") then
-          vim.api.nvim_buf_set_option(self.state.bufnr, 'filetype', 'markdown')  -- Treat .txt as markdown
+          vim.api.nvim_set_option_value('filetype', 'markdown', { buf = self.state.bufnr }) -- Treat .txt as markdown
         elseif entry.value.filename:match("%.md$") then
-          vim.api.nvim_buf_set_option(self.state.bufnr, 'filetype', 'markdown')
+          vim.api.nvim_set_option_value('filetype', 'markdown', { buf = self.state.bufnr })
         end
 
         -- Add highlight for title
         if #preview_lines > 0 then
-          vim.api.nvim_buf_add_highlight(self.state.bufnr, -1, "Title", 0, 0, -1)
+          vim.api.nvim_buf_set_extmark(self.state.bufnr, vim.api.nvim_create_namespace("manual_preview"), 0, 0,
+            {
+              end_row = 0,
+              end_col = 1,
+              hl_group = "Title",
+              priority = 100
+            }
+          )
         end
       end
     }),

@@ -438,8 +438,12 @@ function M.setup()
   end
 
   -- Diagnostics navigation
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap = true, silent = true })
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { noremap = true, silent = true })
+  vim.keymap.set('n', '[d', function()
+    vim.diagnostic.jump({ count = -1, float = true })
+  end, { noremap = true, silent = true })
+  vim.keymap.set('n', ']d', function()
+    vim.diagnostic.jump({ count = 1, float = true })
+  end, { noremap = true, silent = true })
   vim.keymap.set('n', '<leader>e', function()
     local opts = { focusable = false, border = "rounded" }
     vim.diagnostic.open_float(nil, opts)
