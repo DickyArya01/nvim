@@ -137,8 +137,8 @@ Open Neovim and run:
 ### 🔧 Editing & Formatting
 | Key | Mode | Action |
 |-----|------|--------|
-| `<C-_>` (Ctrl+/) | Normal | Toggle line comment |
-| `<C-_>` (Ctrl+/) | Visual | Toggle block comment |
+| `<C-c>` (Ctrl+/) | Normal | Toggle line comment |
+| `<C-c>` (Ctrl+/) | Visual | Toggle block comment |
 | `<leader>fs` | Normal | Format and save |
 | `<leader>fw` | Normal | Format and save+quit |
 | `<C-Space>` | Insert | Trigger autocompletion |
@@ -200,7 +200,7 @@ Open Neovim and run:
 2. **`<leader>fg`** - Find keyword quickly
 3. **`gd`** - Go to code definition
 4. **`<leader>ca`** - Quick fixes & refactoring
-5. **`<C-_>`** - Toggle comments
+5. **`<C-c>`** - Toggle comments
 
 ### Manual Location:
 All manuals are stored in `~/.config/nvim/manuals/`

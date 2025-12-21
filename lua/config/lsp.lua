@@ -425,11 +425,11 @@ function M.setup()
     comment.setup()
 
     -- Comment keybindings
-    vim.keymap.set('n', '<C-_>', function()
+    vim.keymap.set('n', '<C-c>', function()
       require('Comment.api').toggle.linewise.current()
     end, { noremap = true, silent = true })
 
-    vim.keymap.set('v', '<C-_>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+    vim.keymap.set('v', '<C-c>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
       { noremap = true, silent = true })
 
     print("   • Comment setup complete")

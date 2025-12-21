@@ -47,9 +47,9 @@
 ## 🔧 EDITING
 
 ### Comments
-- `<C-_>`: Toggle comment (Ctrl+/)
+- `<C-c>`: Toggle comment (Ctrl+/)
 1. Select text in visual mode
-2. Press `<C-_>` to comment/uncomment
+2. Press `<C-c>` to comment/uncomment
 
 ### Formatting
 - Auto format on save for:
