@@ -4,7 +4,7 @@ local M = {}
 
 function M.setup()
   print(" ⴵ Setting up Git integration...")
-  
+
   -- ============================================
   -- 1. GITSIGNS.NVIM SETUP (Inline git signs)
   -- ============================================
@@ -12,7 +12,7 @@ function M.setup()
   if gitsigns_ok then
     gitsigns.setup({
       -- Simple configuration
-      signs = {
+      signs              = {
         add          = { text = '▎' },
         change       = { text = '▎' },
         delete       = { text = '▁' },
@@ -20,18 +20,18 @@ function M.setup()
         changedelete = { text = '~' },
         untracked    = { text = '┆' },
       },
-      signcolumn = true,
-      numhl      = false,
-      linehl     = false,
+      signcolumn         = true,
+      numhl              = false,
+      linehl             = false,
       current_line_blame = false,
-      
-      on_attach = function(bufnr)
+
+      on_attach          = function(bufnr)
         local function map(mode, lhs, rhs, opts)
           opts = opts or {}
           opts.buffer = bufnr
           vim.keymap.set(mode, lhs, rhs, opts)
         end
-        
+
         -- Navigation
         map('n', ']h', gitsigns.next_hunk, { desc = "Next git hunk" })
         map('n', '[h', gitsigns.prev_hunk, { desc = "Previous git hunk" })
@@ -39,30 +39,30 @@ function M.setup()
         -- Actions
         map('n', '<leader>hs', gitsigns.stage_hunk, { desc = "Stage hunk" })
         map('n', '<leader>hr', gitsigns.reset_hunk, { desc = "Reset hunk" })
-        map('v', '<leader>hs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-        map('v', '<leader>hr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-        
+        map('v', '<leader>hs', function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+        map('v', '<leader>hr', function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+
         -- Preview
         map('n', '<leader>hp', gitsigns.preview_hunk, { desc = "Preview hunk" })
-        map('n', '<leader>hb', function() gitsigns.blame_line{full=true} end, { desc = "Git blame" })
-        
+        map('n', '<leader>hb', function() gitsigns.blame_line { full = true } end, { desc = "Git blame" })
+
         -- Diff
         map('n', '<leader>hd', gitsigns.diffthis, { desc = "Diff this" })
-        
+
         -- Toggle
         map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = "Toggle blame" })
       end
     })
-    
+
     print("   • gitsigns.nvim configured")
   else
     print("   • gitsigns.nvim not available")
   end
-  
+
   -- ============================================
   -- 2. RESOLVE CONFLICTS
   -- ============================================
-  
+
   local conflict_ok, git_conflict = pcall(require, 'git-conflict')
   if conflict_ok then
     git_conflict.setup({
@@ -74,25 +74,25 @@ function M.setup()
       },
       debug = false,
     })
-    
+
     print("   • git-conflict.nvim configured")
-    
+
     -- Conflict resolution keymaps
-    vim.keymap.set('n', '<leader>gco', '<cmd>GitConflictListQf<CR>', 
+    vim.keymap.set('n', '<leader>gco', '<cmd>GitConflictListQf<CR>',
       { desc = "List all conflicts (quickfix)" })
-    vim.keymap.set('n', '<leader>gcn', '<cmd>GitConflictNextConflict<CR>', 
+    vim.keymap.set('n', '<leader>gcn', '<cmd>GitConflictNextConflict<CR>',
       { desc = "Go to next conflict" })
-    vim.keymap.set('n', '<leader>gcp', '<cmd>GitConflictPrevConflict<CR>', 
+    vim.keymap.set('n', '<leader>gcp', '<cmd>GitConflictPrevConflict<CR>',
       { desc = "Go to previous conflict" })
-    vim.keymap.set('n', '<leader>gcb', '<cmd>GitConflictChooseBoth<CR>', 
+    vim.keymap.set('n', '<leader>gcb', '<cmd>GitConflictChooseBoth<CR>',
       { desc = "Choose both changes" })
-    vim.keymap.set('n', '<leader>gci', '<cmd>GitConflictChooseIncoming<CR>', 
+    vim.keymap.set('n', '<leader>gci', '<cmd>GitConflictChooseIncoming<CR>',
       { desc = "Choose incoming change" })
-    vim.keymap.set('n', '<leader>gcc', '<cmd>GitConflictChooseCurrent<CR>', 
+    vim.keymap.set('n', '<leader>gcc', '<cmd>GitConflictChooseCurrent<CR>',
       { desc = "Choose current change" })
-    vim.keymap.set('n', '<leader>gcn', '<cmd>GitConflictChooseNone<CR>', 
+    vim.keymap.set('n', '<leader>gcn', '<cmd>GitConflictChooseNone<CR>',
       { desc = "Choose none (delete)" })
-    vim.keymap.set('n', '<leader>gcr', '<cmd>GitConflictRefresh<CR>', 
+    vim.keymap.set('n', '<leader>gcr', '<cmd>GitConflictRefresh<CR>',
       { desc = "Refresh conflict view" })
   else
     print("   • git-conflict.nvim not available")
@@ -101,29 +101,30 @@ function M.setup()
   -- ============================================
   -- 3. GLOBAL GIT KEYMAPS
   -- ============================================
-  
+
+
   -- Git status (fugitive)
   vim.keymap.set('n', '<leader>gs', ':Git<CR>', { desc = "Git status" })
   vim.keymap.set('n', '<leader>gc', ':Git commit<CR>', { desc = "Git commit" })
   vim.keymap.set('n', '<leader>gp', ':Git push<CR>', { desc = "Git push" })
   vim.keymap.set('n', '<leader>gP', ':Git pull<CR>', { desc = "Git pull" })
-  
+
   -- Browse
   vim.keymap.set('n', '<leader>gl', ':Git log<CR>', { desc = "Git log" })
   vim.keymap.set('n', '<leader>gB', ':Git branch<CR>', { desc = "Git branches" })
   vim.keymap.set('n', '<leader>gf', ':Git fetch<CR>', { desc = "Git fetch" })
   vim.keymap.set('n', '<leader>gF', ':Git pull --rebase<CR>', { desc = "Git pull rebase" })
-  
+
   -- Stage/Unstage
   vim.keymap.set('n', '<leader>ga', ':Git add %<CR>', { desc = "Git add current file" })
   vim.keymap.set('n', '<leader>gu', ':Git reset %<CR>', { desc = "Git unstage current file" })
   vim.keymap.set('n', '<leader>gU', ':Git checkout -- %<CR>', { desc = "Git discard changes" })
 
-  
+
   -- ============================================
   -- 4. CUSTOM FUNCTIONS
   -- ============================================
-  
+
   -- Function to show current git branch
   _G.get_git_branch = function()
     local handle = io.popen('git branch --show-current 2>/dev/null')
@@ -137,11 +138,11 @@ function M.setup()
     end
     return ""
   end
-  
+
   -- ============================================
   -- 5. TEST IF GIT IS WORKING
   -- ============================================
-  
+
   -- Test git integration
   vim.defer_fn(function()
     local test_file = vim.fn.expand('%:p')
@@ -160,7 +161,7 @@ function M.setup()
       end
     end
   end, 100)
-  
+
   print(" ✔ Git module loaded successfully!")
 end
 

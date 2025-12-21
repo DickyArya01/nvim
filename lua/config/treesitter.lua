@@ -19,6 +19,7 @@ function M.setup()
   end
 
   configs.setup({
+    install_dir = "",
     ensure_installed = {
       'c', 'cpp', 'python', 'rust', 'lua', 'vim', 'vimdoc',
       'javascript', 'typescript', 'tsx', 'html', 'css', 'json',
