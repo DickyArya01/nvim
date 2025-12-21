@@ -33,9 +33,23 @@ function M.setup()
         end
 
         -- Navigation
-        map('n', ']h', gitsigns.next_hunk, { desc = "Next git hunk" })
-        map('n', '[h', gitsigns.prev_hunk, { desc = "Previous git hunk" })
-        
+        map('n', ']h', function()
+          if vim.wo.diff then
+            vim.cmd.normal({ ']h', bang = true })
+          else
+            ---@diagnostic disable-next-line: param-type-mismatch
+            gitsigns.nav_hunk('next')
+          end
+        end, { desc = "Next git hunk" })
+        map('n', '[h', function()
+          if vim.wo.diff then
+            vim.cmd.normal({ '[h', bang = true })
+          else
+            ---@diagnostic disable-next-line: param-type-mismatch
+            gitsigns.nav_hunk('prev')
+          end
+        end, { desc = "Previous git hunk" })
+
         -- Actions
         map('n', '<leader>hs', gitsigns.stage_hunk, { desc = "Stage hunk" })
         map('n', '<leader>hr', gitsigns.reset_hunk, { desc = "Reset hunk" })
