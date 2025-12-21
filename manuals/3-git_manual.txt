@@ -15,6 +15,7 @@
 ## Git Operations
 - `<leader>gs` : Buka git status
 - `<leader>gc` : Git commit
+- `<leader>guc` : Git undo one local commit
 - `<leader>gp` : Git push
 - `<leader>gP` : Git pull
 - `<leader>ga` : Git add file saat ini

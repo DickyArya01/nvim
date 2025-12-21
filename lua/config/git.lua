@@ -120,6 +120,7 @@ function M.setup()
   -- Git status (fugitive)
   vim.keymap.set('n', '<leader>gs', ':Git<CR>', { desc = "Git status" })
   vim.keymap.set('n', '<leader>gc', ':Git commit<CR>', { desc = "Git commit" })
+  vim.keymap.set('n', '<leader>gcu', ':!git reset --soft HEAD~1<CR>', { desc = "Git undo commit" })
   vim.keymap.set('n', '<leader>gp', ':Git push<CR>', { desc = "Git push" })
   vim.keymap.set('n', '<leader>gP', ':Git pull<CR>', { desc = "Git pull" })
 
