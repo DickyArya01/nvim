@@ -148,10 +148,10 @@ Open Neovim and run:
 ### 🪟 Window Management
 | Key | Action |
 |-----|--------|
-| `<leader>hh` / `<C-h>` | Move to left window |
-| `<leader>ll` / `<C-l>` | Move to right window |
-| `<leader>kk` / `<C-k>` | Move to up window |
-| `<leader>jj` / `<C-j>` | Move to down window |
+| `<leader>hh` | Move to left window |
+| `<leader>ll` | Move to right window |
+| `<leader>kk` | Move to up window |
+| `<leader>jj` | Move to down window |
 | `<leader>sr` | Vertical split (right) |
 | `<leader>sl` | Vertical split (left) |
 | `<leader>sd` | Horizontal split (down) |
