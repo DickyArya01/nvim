@@ -170,9 +170,9 @@ nnoremap <leader><Down> <C-w>-
 nnoremap <leader>= <C-w>=
 
 
-nnoremap <leader>tt :terminal<CR>
-nnoremap <leader>th :set splitbelow<CR>:split<CR>:terminal<CR>
-nnoremap <leader>tv :set splitright<CR>:vsplit<CR>:terminal<CR>
+nnoremap <leader>tt :terminal zsh<CR>
+nnoremap <leader>th :set splitbelow<CR>:split<CR>:terminal zsh<CR>
+nnoremap <leader>tv :set splitright<CR>:vsplit<CR>:terminal zsh<CR>
 
 " Terminal mode navigation (MOST IMPORTANT!)
 
