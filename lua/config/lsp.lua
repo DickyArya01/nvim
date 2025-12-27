@@ -13,7 +13,13 @@ function M.setup()
 
   local mason_lspconfig_ok, mason_lspconfig = pcall(require, 'mason-lspconfig')
   if not mason_lspconfig_ok then
-    print("   ✗ Mason-LSPConfig not available")
+    print("   ✗ mason-lspconfig not available")
+    return
+  end
+
+  local luasnip_ok, luasnip = pcall(require, 'luasnip')
+  if not luasnip_ok then
+    print("    ✗ luasnip not available")
     return
   end
 
@@ -448,6 +454,28 @@ function M.setup()
     local opts = { focusable = false, border = "rounded" }
     vim.diagnostic.open_float(nil, opts)
   end, { noremap = true, silent = true })
+
+  vim.keymap.set({ 'i', 's' }, '<C-l>', function()
+    if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] then
+      luasnip.unlink_current()
+      print("Unlink snippet and escape")
+    else
+      print("No snippet to unlink .. Escaping")
+    end
+
+    return '<Esc>'
+  end, { noremap = true, expr = true })
+
+  vim.keymap.set('n', '<C-l>', function()
+    if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] then
+      luasnip.unlink_current()
+      print("Unlink snippet")
+    else
+      print("No snippet to unlink")
+    end
+
+    return '<Esc>'
+  end, { noremap = true, expr = true })
 
   -- Additional useful keymaps
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, { noremap = true, silent = true })
