@@ -42,6 +42,10 @@ call plug#begin()
   " Conflict resolution
   Plug 'akinsho/git-conflict.nvim'    
 
+  " flutter
+  Plug 'stevearc/dressing.nvim'
+  Plug 'nvim-flutter/flutter-tools.nvim'
+
 call plug#end()
 
 filetype on

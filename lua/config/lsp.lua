@@ -116,20 +116,10 @@ function M.setup()
   })
 
   -- Common on_attach function
-  local on_attach = function(client, bufnr)
+  local on_attach = function(_, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
-    -- Go to definition (with omnisharp special handling)
-    if client.name == "omnisharp" then
-      local omnisharp_extended_ok, omnisharp_extended = pcall(require, 'omnisharp_extended')
-      if omnisharp_extended_ok then
-        vim.keymap.set('n', 'gd', omnisharp_extended.lsp_definition, opts)
-      else
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-      end
-    else
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    end
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 
     -- Common LSP keymaps
     vim.keymap.set('n', 'fr', vim.lsp.buf.references, opts)
@@ -370,6 +360,8 @@ function M.setup()
         -- Start LSP server
         vim.lsp.start(final_config)
         -- print("Started LSP: " .. server_name .. " for " .. ft)
+      else
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
       end
     end,
   })
@@ -414,7 +406,7 @@ function M.setup()
       "*.js", "*.ts", "*.jsx", "*.tsx",
       "*.json", "*.html", "*.css", "*.scss",
       "*.lua", "*.py", "*.rs", "*.cs",
-      "*.sh", "*.bash",
+      "*.sh", "*.bash", "*.dart",
     },
     callback = function(args)
       -- Skip jika filetype adalah vim
