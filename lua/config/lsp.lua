@@ -23,6 +23,11 @@ function M.setup()
     return
   end
 
+  local fluttertools_ok, fluttertools = pcall(require, 'flutter-tools')
+  if fluttertools_ok then
+    print("    ✗ flutter-tools not available")
+  end
+
   -- Setup Mason
   mason.setup({
     ui = {
@@ -119,22 +124,62 @@ function M.setup()
   local on_attach = function(_, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
+    -- Common LSP keymaps
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 
-    -- Common LSP keymaps
     vim.keymap.set('n', 'fr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', '<leader>fn', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('v', '<leader>ca', vim.lsp.buf.code_action, opts)
 
     -- Formatting
     vim.keymap.set('n', '<leader>fa', function()
       vim.lsp.buf.format({ async = true })
-    end, { noremap = true, silent = true, buffer = bufnr })
+    end, opts)
 
     -- Document symbols
     vim.keymap.set('n', '<leader>ds', vim.lsp.buf.document_symbol, opts)
     vim.keymap.set('n', '<leader>ws', vim.lsp.buf.workspace_symbol, opts)
+
+    -- Additional useful keymaps
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, opts)
+
+    -- Diagnostics navigation
+    vim.keymap.set('n', '[d', function()
+      vim.diagnostic.jump({ count = -1, float = true })
+    end, opts)
+    vim.keymap.set('n', ']d', function()
+      vim.diagnostic.jump({ count = 1, float = true })
+    end, opts)
+    vim.keymap.set('n', '<leader>e', function()
+      vim.diagnostic.open_float(nil, { focusable = false, border = "rounded" })
+    end, opts)
+
+    vim.keymap.set({ 'i', 's' }, '<C-l>', function()
+      if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] then
+        luasnip.unlink_current()
+        print("Unlink snippet and escape")
+      else
+        print("No snippet to unlink .. Escaping")
+      end
+
+      return '<Esc>'
+    end, { noremap = true, expr = true })
+
+    vim.keymap.set('n', '<C-l>', function()
+      if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] then
+        luasnip.unlink_current()
+        print("Unlink snippet")
+      else
+        print("No snippet to unlink")
+      end
+
+      return '<Esc>'
+    end, { noremap = true, expr = true })
   end
 
   -- Formatting helper functions
@@ -148,7 +193,7 @@ function M.setup()
       end)
 
       if not success then
-        print("Formatting is not available for this type of file")
+        print("Error formatting" .. tostring(err))
       end
     else
       print("No LSP client attached - skipping formatting")
@@ -340,6 +385,84 @@ function M.setup()
     jsonc = "jsonls",
   }
 
+  fluttertools.setup {
+    ui = {
+      border = "rounded",
+      notification_style = 'native'
+    },
+    decorations = {
+      statusline = {
+        app_version = false,
+        device = false,
+        project_config = false,
+      }
+    },
+    debugger = {
+      enabled = false,
+      exception_breakpoints = {},
+      evaluate_to_string_in_debug_views = true,
+    },
+    flutter_path = "/home/archimedes/develop/flutter/bin", -- <-- this takes priority over the lookup
+    -- flutter_lookup_cmd = "dirname ${which flutter}", -- example "dirname $(which flutter)" or "asdf where flutter"
+    root_patterns = { ".git", "pubspec.yaml" },            -- patterns to find the root of your flutter project
+    fvm = true,                                            -- takes priority over path, uses <workspace>/.fvm/flutter_sdk if enabled
+    default_run_args = nil,                                -- Default options for run command (i.e `{ flutter = "--no-version-check" }`). Configured separately for `dart run` and `flutter run`.
+    widget_guides = {
+      enabled = true,
+    },
+    closing_tags = {
+      highlight = "Comment", -- highlight for the closing tag
+      prefix = "-- ",        -- character to use for close tag e.g. > Widget
+      priority = 10,         -- priority of virtual text in current line
+      -- consider to configure this when there is a possibility of multiple virtual text items in one line
+      -- see `priority` option in |:help nvim_buf_set_extmark| for more info
+      enabled = true -- set to false to disable
+    },
+    dev_log = {
+      enabled = true,
+      filter = nil, -- optional callback to filter the log
+      -- takes a log_line as string argument; returns a boolean or nil;
+      -- the log_line is only added to the output if the function returns true
+      notify_errors = false, -- if there is an error whilst running then notify the user
+      open_cmd = "15split",  -- command to use to open the log buffer
+      focus_on_open = true,  -- focus on the newly opened log window
+    },
+    dev_tools = {
+      autostart = false,         -- autostart devtools server if not detected
+      auto_open_browser = false, -- Automatically opens devtools in the browser
+    },
+    outline = {
+      open_cmd = "30vnew", -- command to use to open the outline buffer
+      auto_open = false    -- if true this will open the outline automatically when it is first populated
+    },
+    lsp = {
+      color = { -- show the derived colours for dart variables
+        enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
+        background = false, -- highlight the background
+        background_color = nil, -- required, when background is transparent (i.e. background_color = { r = 19, g = 17, b = 24},)
+        foreground = false, -- highlight the foreground
+        virtual_text = true, -- show the highlight using virtual text
+        virtual_text_str = "■", -- the virtual text character to highlight
+      },
+      on_attach = on_attach,
+      capabilities = capabilities,
+      settings = {
+        showTodos = true,
+        completeFunctionCalls = true,
+        analysisExcludedFolders = {
+          '**/build/**',
+          '**/dart_tool/**',
+          '**/.pub-cache',
+          '**/node_modules/**',
+        },
+        renameFilesWithClasses = "prompt", -- "always"
+        enableSnippets = true,
+        updateImportsOnRename = true,      -- Whether to update imports and other directives when files are renamed. Required for `FlutterRename` command.
+      }
+    }
+  }
+
+
   -- Setup autocmd untuk start LSP berdasarkan filetype
   vim.api.nvim_create_autocmd("FileType", {
     callback = function(args)
@@ -360,8 +483,6 @@ function M.setup()
         -- Start LSP server
         vim.lsp.start(final_config)
         -- print("Started LSP: " .. server_name .. " for " .. ft)
-      else
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
       end
     end,
   })
@@ -434,46 +555,6 @@ function M.setup()
   else
     print("   • Comment not available")
   end
-
-  -- Diagnostics navigation
-  vim.keymap.set('n', '[d', function()
-    vim.diagnostic.jump({ count = -1, float = true })
-  end, { noremap = true, silent = true })
-  vim.keymap.set('n', ']d', function()
-    vim.diagnostic.jump({ count = 1, float = true })
-  end, { noremap = true, silent = true })
-  vim.keymap.set('n', '<leader>e', function()
-    local opts = { focusable = false, border = "rounded" }
-    vim.diagnostic.open_float(nil, opts)
-  end, { noremap = true, silent = true })
-
-  vim.keymap.set({ 'i', 's' }, '<C-l>', function()
-    if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] then
-      luasnip.unlink_current()
-      print("Unlink snippet and escape")
-    else
-      print("No snippet to unlink .. Escaping")
-    end
-
-    return '<Esc>'
-  end, { noremap = true, expr = true })
-
-  vim.keymap.set('n', '<C-l>', function()
-    if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] then
-      luasnip.unlink_current()
-      print("Unlink snippet")
-    else
-      print("No snippet to unlink")
-    end
-
-    return '<Esc>'
-  end, { noremap = true, expr = true })
-
-  -- Additional useful keymaps
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, { noremap = true, silent = true })
-  vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { noremap = true, silent = true })
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { noremap = true, silent = true })
-  vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, { noremap = true, silent = true })
 
   -- Mason commands
   vim.keymap.set('n', '<leader>m', '<cmd>Mason<CR>', { desc = 'Open Mason' })

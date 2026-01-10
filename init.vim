@@ -12,6 +12,7 @@ call plug#begin()
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'b0o/schemastore.nvim'
+  " Plug 'chrisgrieser/nvim-origami'
 
   " Untuk autocompletion
   Plug 'hrsh7th/nvim-cmp'
