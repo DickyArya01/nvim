@@ -5,6 +5,7 @@ call plug#begin()
   Plug 'romgrk/barbar.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'xiyaowong/transparent.nvim'
 
   " Plugin untuk LSP bawaan Neovim
   Plug 'Hoffs/omnisharp-extended-lsp.nvim'
@@ -196,7 +197,7 @@ tnoremap <Esc> <C-\><C-n><CR>
 tnoremap <silent> <leader>qc <C-\><C-n>:call CloseOrKillTerminal()<CR>
 
 " Close terminal from normal mode
-nnoremap <silent> <ESC> :call CloseOrKillTerminal()<CR>
+nnoremap <silent> <leader>q :call CloseOrKillTerminal()<CR>
 
 
 
