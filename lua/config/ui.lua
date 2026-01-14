@@ -2,13 +2,35 @@
 
 local M = {}
 
+local plugins_loaded = {
+  LUALINE = false,
+  WINMOVE = false,
+  FIDGET = false,
+  TRANSPARENT = false,
+}
+
+local total_plugins = 4
+
+function M.check_plugins_status(v)
+  local current_count = 0
+
+  for _, loaded in pairs(v) do
+    if loaded then current_count = current_count + 1 end
+  end
+
+  if current_count == total_plugins then
+    print(" ✔ UI Setup Complete")
+  elseif current_count > 0 then
+    print(" ⚠︎ UI Setup Partial Complete")
+  else
+    print(" ⊘  UI Setup Failed")
+  end
+end
+
 function M.setup()
   print(" ⴵ Setting up UI...")
 
   vim.lsp.semantic_tokens.enable = true
-
-  local totalConfigCount = 2;
-  local completeConfig = 0;
 
   local winmove_ok, winmove = pcall(require, 'winmove')
 
@@ -16,6 +38,9 @@ function M.setup()
     vim.keymap.set('n', '<leader>wm', function()
       winmove.start_mode('move')
     end)
+
+    plugins_loaded.WINMOVE = true
+
     print("   • winmove setup complete")
   else
     print("   • winmove is not available")
@@ -25,7 +50,7 @@ function M.setup()
   if fidget_ok then
     figet.setup({})
 
-    completeConfig = completeConfig + 1
+    plugins_loaded.FIDGET = true
 
     print("   • Fidget setup complete")
   else
@@ -75,19 +100,51 @@ function M.setup()
       inactive_winbar = {},
       extensions = {}
     })
-    completeConfig = completeConfig + 1
+
+    plugins_loaded.LUALINE = true
+
     print("   • lualine setup complete")
   else
     print("   • lualine is not available")
   end
 
-  if completeConfig == 0 then
-    print(" ⊘ UI setup is failed")
-  elseif completeConfig > 0 and completeConfig < totalConfigCount then
-    print(" ⚠︎ UI setup partially success")
+  local transparent_ok, transparent = pcall(require, 'transparent')
+
+  if transparent_ok then
+    transparent.setup({
+      groups = {
+        'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+        'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+        'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+        'SignColumn', 'CursorLineNr', 'EndOfBuffer',
+      },
+      -- table: additional groups that should be cleared
+      extra_groups = {
+        'BufferLineTabClose',
+        'BufferlineBufferSelected',
+        'BufferLineFill',
+        'BufferLineBackground',
+        'BufferLineSeparator',
+        'BufferLineIndicatorSelected',
+      },
+      -- table: groups you don't want to clear
+      exclude_groups = {},
+      -- function: code to be executed after highlight groups are cleared
+      -- Also the user event "TransparentClear" will be triggered
+      on_clear = function() end,
+    })
+
+
+    vim.keymap.set('n', '<leader>ut', ':TransparentToggle<CR>')
+
+    plugins_loaded.TRANSPARENT = true
+
+    print("   • transparent setup complete")
   else
-    print(" ✔ UI setup complete")
+    print("   • transparent not available")
   end
+
+  M.check_plugins_status(plugins_loaded)
 end
 
 return M
