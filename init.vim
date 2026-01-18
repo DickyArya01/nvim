@@ -1,8 +1,8 @@
 call plug#begin()
   Plug 'preservim/nerdtree'
+  Plug 'tomasiser/vim-code-dark'
   " Plug 'Mofiqul/vscode.nvim'
   " Plug 'kepano/flexoki-neovim', { 'as': 'flexoki' }
-  Plug 'vague-theme/vague.nvim'
   Plug 'nvim-tree/nvim-web-devicons'
   Plug 'romgrk/barbar.nvim'
   Plug 'nvim-lua/plenary.nvim'
@@ -15,6 +15,7 @@ call plug#begin()
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'b0o/schemastore.nvim'
+  Plug 'lopi-py/luau-lsp.nvim'
   " Plug 'chrisgrieser/nvim-origami'
 
   " Untuk autocompletion
@@ -73,12 +74,13 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 nnoremap so :source $MYVIMRC<CR>
 
 "=== Colorscheme ===
+colorscheme codedark
 " colorscheme vscode
 
-" set background=dark
-" colorscheme flexoki
+"set background=dark
+"colorscheme flexoki
 
-colorscheme vague
+" colorscheme vague
 
 "=== NERD Tree ===
 autocmd VimEnter * NERDTree

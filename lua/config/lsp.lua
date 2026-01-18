@@ -42,6 +42,7 @@ function M.setup()
   mason_lspconfig.setup({
     ensure_installed = {
       "lua_ls",        -- Lua
+      "luau_lsp",      -- Luau
       "html",          -- HTML
       "cssls",         -- CSS
       "pyright",       -- Python
@@ -367,6 +368,7 @@ function M.setup()
   -- Map filetype ke server LSP
   local filetype_to_server = {
     lua = "lua_ls",
+    luau = "luau_lsp",
     html = "html",
     css = "cssls",
     scss = "cssls",
@@ -528,12 +530,25 @@ function M.setup()
       "*.json", "*.html", "*.css", "*.scss",
       "*.lua", "*.py", "*.rs", "*.cs",
       "*.sh", "*.bash", "*.dart",
-    },
+      "*.luau" },
     callback = function(args)
       -- Skip jika filetype adalah vim
-      if vim.bo[args.buf].filetype == "vim" then
+      local filetype = vim.bo[args.buf].filetype
+      if filetype == "vim" then
         return
       end
+
+      if filetype == "luau" then
+        local filepath = vim.fn.expand('%:p')
+        vim.cmd('w!')
+
+        local cmd = vim.cmd('!stylua ' .. vim.fn.shellescape(filepath))
+        vim.fn.system(cmd)
+
+        vim.cmd('e!')
+        return
+      end
+
       vim.lsp.buf.format({ async = false, bufnr = args.buf })
     end,
   })
