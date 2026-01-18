@@ -402,11 +402,11 @@ function M.setup()
       exception_breakpoints = {},
       evaluate_to_string_in_debug_views = true,
     },
-    flutter_path = "/home/archimedes/develop/flutter/bin", -- <-- this takes priority over the lookup
+    flutter_path = os.getenv('HOME') .. "/develop/flutter/bin", -- <-- this takes priority over the lookup
     -- flutter_lookup_cmd = "dirname ${which flutter}", -- example "dirname $(which flutter)" or "asdf where flutter"
-    root_patterns = { ".git", "pubspec.yaml" },            -- patterns to find the root of your flutter project
-    fvm = true,                                            -- takes priority over path, uses <workspace>/.fvm/flutter_sdk if enabled
-    default_run_args = nil,                                -- Default options for run command (i.e `{ flutter = "--no-version-check" }`). Configured separately for `dart run` and `flutter run`.
+    root_patterns = { ".git", "pubspec.yaml" },                 -- patterns to find the root of your flutter project
+    fvm = true,                                                 -- takes priority over path, uses <workspace>/.fvm/flutter_sdk if enabled
+    default_run_args = nil,                                     -- Default options for run command (i.e `{ flutter = "--no-version-check" }`). Configured separately for `dart run` and `flutter run`.
     widget_guides = {
       enabled = true,
     },
