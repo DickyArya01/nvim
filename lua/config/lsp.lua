@@ -24,8 +24,13 @@ function M.setup()
   end
 
   local fluttertools_ok, fluttertools = pcall(require, 'flutter-tools')
-  if fluttertools_ok then
+  if not fluttertools_ok then
     print("    ✗ flutter-tools not available")
+  end
+
+  local omnisharp_extended_ok, omnisharp_extended = pcall(require, 'omnisharp_extended')
+  if not omnisharp_extended_ok then
+    print("    ✗ omnisharp_extended not available")
   end
 
   -- Setup Mason
@@ -122,11 +127,17 @@ function M.setup()
   })
 
   -- Common on_attach function
-  local on_attach = function(_, bufnr)
+  local on_attach = function(client, bufnr)
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
     -- Common LSP keymaps
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gd', function()
+      if client.name == "omnisharp" then
+        omnisharp_extended.lsp_definitions()
+      else
+        vim.lsp.buf.definition()
+      end
+    end, opts)
 
     vim.keymap.set('n', 'fr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
@@ -153,12 +164,13 @@ function M.setup()
     vim.keymap.set('n', '[d', function()
       vim.diagnostic.jump({ count = -1, float = true })
     end, opts)
+
     vim.keymap.set('n', ']d', function()
       vim.diagnostic.jump({ count = 1, float = true })
-    end, opts)
+    end, { noremap = true, silent = true })
     vim.keymap.set('n', '<leader>e', function()
       vim.diagnostic.open_float(nil, { focusable = false, border = "rounded" })
-    end, opts)
+    end, { noremap = true, silent = true })
 
     vim.keymap.set({ 'i', 's' }, '<C-l>', function()
       if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] then
@@ -335,12 +347,41 @@ function M.setup()
     -- C# (omnisharp)
     omnisharp = {
       name = "omnisharp",
-      cmd = { "omnisharp", "--languageserver" },
+      cmd = {
+        "omnisharp",
+        "--languageserver",
+        "--hostPID",
+        tostring(vim.fn.getpid())
+      },
       filetypes = { "cs" },
+      root_dir = function(fname)
+        return vim.fs.dirname(vim.fs.find(
+          { "*.csproj", "*.sln", ".git" },
+          { upward = true }
+        )[1] or fname)
+      end,
       enable_editorconfig_support = true,
       enable_roslyn_analyzers = true,
       organize_imports_on_format = true,
       enable_import_completion = true,
+      capabilities = vim.tbl_extend("keep", capabilities, {
+        offsetEncoding = { "utf-16", "utf-8" }
+      }),
+      settings = {
+        FormattingOptions = {
+          -- Formatting settings
+          OrganizeImports = true,
+          EnableEditorConfigSupport = true,
+        },
+        RoslynExtensionsOptions = {
+          EnableAnalyzersSupport = true,
+          EnableImportCompletion = true,
+        },
+        Sdk = {
+          IncludePrereleases = true,
+        }
+      },
+
     },
 
     -- Bash LSP

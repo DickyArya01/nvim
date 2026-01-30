@@ -23,15 +23,21 @@ function M.setup()
     ensure_installed = {
       'c', 'cpp', 'python', 'rust', 'lua', 'vim', 'vimdoc',
       'javascript', 'typescript', 'tsx', 'html', 'css', 'json',
-      'php', 'markdown', 'bash'
+      'php', 'markdown', 'bash', 'c_sharp'
     },
+
+    sync_install = false,
+    auto_install = true,
+
     highlight = {
       enable = true,
+      disable = {},
     },
     indent = {
       enable = true,
     },
   })
+
   print(" ✔ Treesitter Setup Complete")
 end
 

@@ -16,6 +16,7 @@ call plug#begin()
   Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'b0o/schemastore.nvim'
   Plug 'lopi-py/luau-lsp.nvim'
+  Plug 'Hoffs/omnisharp-extended-lsp.nvim'
   " Plug 'chrisgrieser/nvim-origami'
 
   " Untuk autocompletion
