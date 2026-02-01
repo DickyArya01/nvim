@@ -1,6 +1,8 @@
 -- Autocompletion configuration
 local M = {}
 
+_G.cmp_enabled = true
+
 function M.setup()
   print(" ⴵ Setting up Autocompletion...")
 
@@ -32,32 +34,22 @@ function M.setup()
 
   -- Setup cmp
   cmp.setup({
+    enabled = function()
+      return _G.cmp_enabled
+    end,
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
       end
     },
     mapping = cmp.mapping.preset.insert({
-      ['<C-Space>'] = cmp.mapping.complete(),
+      -- ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-Space>'] = cmp.mapping(function()
+        if _G.cmp_enabled then
+          cmp.complete()
+        end
+      end, { 'i', 'c' }),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
-      -- ['<Tab>'] = cmp.mapping(function(fallback)
-      --   if cmp.visible() then
-      --     cmp.select_next_item()
-      --   elseif luasnip.expand_or_jumpable() then
-      --     luasnip.expand_or_jump()
-      --   else
-      --     fallback()
-      --   end
-      -- end, { 'i', 's' }),
-      -- ['<S-Tab>'] = cmp.mapping(function(fallback)
-      --   if cmp.visible() then
-      --     cmp.select_prev_item()
-      --   elseif luasnip.jumpable(-1) then
-      --     luasnip.jump(-1)
-      --   else
-      --     fallback()
-      --   end
-      -- end, { 'i', 's' }),
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -68,13 +60,13 @@ function M.setup()
     formatting = {
       format = function(entry, vim_item)
         -- Show source name
-        vim_item.menu = ({
+        vim_item.menu = (({
           buffer = "[Buffer]",
           nvim_lsp = "[LSP]",
           luasnip = "[Snippet]",
           nvim_lua = "[Lua]",
           path = "[Path]",
-        })[entry.source.name] or "[" .. entry.source.name .. "]"
+        })[entry.source.name] or "[") .. entry.source.name .. "]"
         return vim_item
       end,
     },
@@ -107,6 +99,19 @@ function M.setup()
     _G.create_html_snippets()
     print("✔ Custom HTML snippets created")
   end, 1000)
+
+  vim.api.nvim_create_user_command("CmpToggle", function()
+    _G.cmp_enabled = not _G.cmp_enabled
+
+    if _G.cmp_enabled then
+      print("Autocompletion enabled")
+    else
+      cmp.close()
+      print("Autocompletion disabled")
+    end
+  end, {})
+
+  vim.keymap.set("n", "<leader>ac", "<cmd>CmpToggle<CR>", { desc = "Toggle Autocompletion" })
 
   print(" ✔ Autocompletion setup complete")
 end
