@@ -10,6 +10,7 @@ call plug#begin()
   Plug 'xiyaowong/transparent.nvim'
 
   " Plugin untuk LSP bawaan Neovim
+  Plug 'neovim/nvim-lspconfig'
   Plug 'Hoffs/omnisharp-extended-lsp.nvim'
   Plug 'nvim-lualine/lualine.nvim'
   Plug 'williamboman/mason.nvim'

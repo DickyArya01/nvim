@@ -5,32 +5,37 @@ function M.setup()
   print(" ⴵ Setting up LSP with Mason...")
 
   -- Setup Mason (LSP installer manager)
-  local mason_ok, mason = pcall(require, 'mason')
+  local mason_ok, mason = pcall(require, "mason")
   if not mason_ok then
     print("   ✗ Mason not available")
     return
   end
 
-  local mason_lspconfig_ok, mason_lspconfig = pcall(require, 'mason-lspconfig')
+  local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
   if not mason_lspconfig_ok then
     print("   ✗ mason-lspconfig not available")
     return
   end
 
-  local luasnip_ok, luasnip = pcall(require, 'luasnip')
+  local luasnip_ok, luasnip = pcall(require, "luasnip")
   if not luasnip_ok then
     print("    ✗ luasnip not available")
     return
   end
 
-  local fluttertools_ok, fluttertools = pcall(require, 'flutter-tools')
+  local fluttertools_ok, fluttertools = pcall(require, "flutter-tools")
   if not fluttertools_ok then
     print("    ✗ flutter-tools not available")
   end
 
-  local omnisharp_extended_ok, omnisharp_extended = pcall(require, 'omnisharp_extended')
+  local omnisharp_extended_ok, omnisharp_extended = pcall(require, "omnisharp_extended")
   if not omnisharp_extended_ok then
     print("    ✗ omnisharp_extended not available")
+  end
+
+  local lsp_ok, _ = pcall(require, "lspconfig")
+  if not lsp_ok then
+    print("    ✗ lspconfig not available")
   end
 
   -- Setup Mason
@@ -39,23 +44,23 @@ function M.setup()
       icons = {
         package_installed = "✓",
         package_pending = "➜",
-        package_uninstalled = "✗"
-      }
-    }
+        package_uninstalled = "✗",
+      },
+    },
   })
 
   mason_lspconfig.setup({
     ensure_installed = {
-      "lua_ls",        -- Lua
-      "luau_lsp",      -- Luau
-      "html",          -- HTML
-      "cssls",         -- CSS
-      "pyright",       -- Python
+      "lua_ls",     -- Lua
+      "luau_lsp",   -- Luau
+      "html",       -- HTML
+      "cssls",      -- CSS
+      "pyright",    -- Python
       "rust_analyzer", -- Rust
-      "clangd",        -- C/C++
-      "omnisharp",     -- C#
-      "bashls",        -- Bash
-      "jsonls",        -- JSON
+      "clangd",     -- C/C++
+      "omnisharp",  -- C#
+      "bashls",     -- Bash
+      "jsonls",     -- JSON
     },
     automatic_installation = true,
   })
@@ -69,10 +74,10 @@ function M.setup()
   })
 
   -- Use prettier directly via LSP if available
-  local prettier_ok, prettier = pcall(require, 'prettier')
+  local prettier_ok, prettier = pcall(require, "prettier")
   if prettier_ok then
     prettier.setup({
-      bin = 'prettier',
+      bin = "prettier",
       filetypes = {
         "css",
         "javascript",
@@ -81,14 +86,14 @@ function M.setup()
         "typescriptreact",
         "json",
         "scss",
-        "less"
+        "less",
       },
     })
     print("   • Prettier setup complete")
   end
 
   -- Load cmp capabilities with error handling
-  local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+  local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
   local capabilities = {}
   if cmp_nvim_lsp_ok then
     capabilities = cmp_nvim_lsp.default_capabilities()
@@ -131,7 +136,7 @@ function M.setup()
     local opts = { noremap = true, silent = true, buffer = bufnr }
 
     -- Common LSP keymaps
-    vim.keymap.set('n', 'gd', function()
+    vim.keymap.set("n", "gd", function()
       if client.name == "omnisharp" then
         omnisharp_extended.lsp_definitions()
       else
@@ -139,40 +144,40 @@ function M.setup()
       end
     end, opts)
 
-    vim.keymap.set('n', 'fr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<leader>fn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('v', '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set("n", "fr", vim.lsp.buf.references, opts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>fn", vim.lsp.buf.rename, opts)
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, opts)
 
     -- Formatting
-    vim.keymap.set('n', '<leader>fa', function()
+    vim.keymap.set("n", "<leader>fa", function()
       vim.lsp.buf.format({ async = true })
     end, opts)
 
     -- Document symbols
-    vim.keymap.set('n', '<leader>ds', vim.lsp.buf.document_symbol, opts)
-    vim.keymap.set('n', '<leader>ws', vim.lsp.buf.workspace_symbol, opts)
+    vim.keymap.set("n", "<leader>ds", vim.lsp.buf.document_symbol, opts)
+    vim.keymap.set("n", "<leader>ws", vim.lsp.buf.workspace_symbol, opts)
 
     -- Additional useful keymaps
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+    vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+    vim.keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, opts)
 
     -- Diagnostics navigation
-    vim.keymap.set('n', '[d', function()
+    vim.keymap.set("n", "[d", function()
       vim.diagnostic.jump({ count = -1, float = true })
     end, opts)
 
-    vim.keymap.set('n', ']d', function()
+    vim.keymap.set("n", "]d", function()
       vim.diagnostic.jump({ count = 1, float = true })
     end, { noremap = true, silent = true })
-    vim.keymap.set('n', '<leader>e', function()
+    vim.keymap.set("n", "<leader>e", function()
       vim.diagnostic.open_float(nil, { focusable = false, border = "rounded" })
     end, { noremap = true, silent = true })
 
-    vim.keymap.set({ 'i', 's' }, '<C-l>', function()
+    vim.keymap.set({ "i", "s" }, "<C-l>", function()
       if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] then
         luasnip.unlink_current()
         print("Unlink snippet and escape")
@@ -180,10 +185,10 @@ function M.setup()
         print("No snippet to unlink .. Escaping")
       end
 
-      return '<Esc>'
+      return "<Esc>"
     end, { noremap = true, expr = true })
 
-    vim.keymap.set('n', '<C-l>', function()
+    vim.keymap.set("n", "<C-l>", function()
       if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] then
         luasnip.unlink_current()
         print("Unlink snippet")
@@ -191,7 +196,7 @@ function M.setup()
         print("No snippet to unlink")
       end
 
-      return '<Esc>'
+      return "<Esc>"
     end, { noremap = true, expr = true })
   end
 
@@ -215,12 +220,12 @@ function M.setup()
 
   local function safe_format_and_save()
     safe_format()
-    vim.cmd('w!')
+    vim.cmd("w!")
   end
 
   local function safe_format_and_quit()
     safe_format()
-    vim.cmd('wq!')
+    vim.cmd("wq!")
   end
 
   _G.SafeFormatAndSave = safe_format_and_save
@@ -236,23 +241,23 @@ function M.setup()
       settings = {
         Lua = {
           runtime = {
-            version = 'Lua 5.4',
+            version = "Lua 5.4",
           },
           diagnostics = {
-            globals = { 'vim' }
+            globals = { "vim" },
           },
           workspace = {
             library = {
               vim.api.nvim_get_runtime_file("", true),
               "${3rd}/love2d/library",
             },
-            checkThirdParty = false
+            checkThirdParty = false,
           },
           telemetry = {
-            enable = false
-          }
-        }
-      }
+            enable = false,
+          },
+        },
+      },
     },
 
     -- HTML LSP
@@ -261,8 +266,8 @@ function M.setup()
       cmd = { "vscode-html-language-server", "--stdio" },
       filetypes = { "html" },
       init_options = {
-        provideFormatter = true
-      }
+        provideFormatter = true,
+      },
     },
 
     -- CSS LSP
@@ -272,15 +277,15 @@ function M.setup()
       filetypes = { "css", "scss", "less" },
       settings = {
         css = {
-          validate = true
+          validate = true,
         },
         scss = {
-          validate = true
+          validate = true,
         },
         less = {
-          validate = true
-        }
-      }
+          validate = true,
+        },
+      },
     },
 
     -- Rust analyzer
@@ -292,7 +297,7 @@ function M.setup()
         local root_files = {
           "Cargo.toml",
           "rust-project.json",
-          ".git"
+          ".git",
         }
         return vim.fs.dirname(vim.fs.find(root_files, { upward = true })[1])
       end,
@@ -300,25 +305,25 @@ function M.setup()
         ["rust-analyzer"] = {
           checkOnSave = {
             command = "clippy",
-            extraArgs = { "--", "-W", "clippy::pedantic" }
+            extraArgs = { "--", "-W", "clippy::pedantic" },
           },
           standalone = true,
           cargo = {
             loadOutDirsFromCheck = true,
-            autoreload = true
+            autoreload = true,
           },
           diagnostics = {
-            disabled = { "unresolved-import" }
+            disabled = { "unresolved-import" },
           },
           workspace = {
             symbol = {
               search = {
-                kind = "all_symbols"
-              }
-            }
-          }
-        }
-      }
+                kind = "all_symbols",
+              },
+            },
+          },
+        },
+      },
     },
 
     -- Python (pyright)
@@ -331,10 +336,10 @@ function M.setup()
           analysis = {
             typeCheckingMode = "basic",
             autoSearchPaths = true,
-            useLibraryCodeForTypes = true
-          }
-        }
-      }
+            useLibraryCodeForTypes = true,
+          },
+        },
+      },
     },
 
     -- C/C++ (clangd)
@@ -343,8 +348,8 @@ function M.setup()
       cmd = { "clangd" },
       filetypes = { "c", "cpp", "objc", "objcpp" },
       capabilities = vim.tbl_extend("keep", capabilities, {
-        offsetEncoding = { "utf-16" }
-      })
+        offsetEncoding = { "utf-16" },
+      }),
     },
 
     -- C# (omnisharp)
@@ -354,21 +359,18 @@ function M.setup()
         "omnisharp",
         "--languageserver",
         "--hostPID",
-        tostring(vim.fn.getpid())
+        tostring(vim.fn.getpid()),
       },
       filetypes = { "cs" },
       root_dir = function(fname)
-        return vim.fs.dirname(vim.fs.find(
-          { "*.csproj", "*.sln", ".git" },
-          { upward = true }
-        )[1] or fname)
+        return vim.fs.dirname(vim.fs.find({ "*.csproj", "*.sln", ".git" }, { upward = true })[1] or fname)
       end,
       enable_editorconfig_support = true,
       enable_roslyn_analyzers = true,
       organize_imports_on_format = true,
       enable_import_completion = true,
       capabilities = vim.tbl_extend("keep", capabilities, {
-        offsetEncoding = { "utf-16", "utf-8" }
+        offsetEncoding = { "utf-16", "utf-8" },
       }),
       settings = {
         FormattingOptions = {
@@ -382,9 +384,8 @@ function M.setup()
         },
         Sdk = {
           IncludePrereleases = true,
-        }
+        },
       },
-
     },
 
     -- Bash LSP
@@ -392,7 +393,7 @@ function M.setup()
       name = "bashls",
       cmd = { "bash-language-server", "start" },
       filetypes = { "sh", "bash" },
-      settings = {}
+      settings = {},
     },
 
     -- JSON LSP
@@ -402,10 +403,10 @@ function M.setup()
       filetypes = { "json", "jsonc" },
       settings = {
         json = {
-          schemas = require('schemastore').json.schemas(),
-          validate = { enable = true }
-        }
-      }
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
+      },
     },
   }
 
@@ -431,38 +432,38 @@ function M.setup()
     jsonc = "jsonls",
   }
 
-  fluttertools.setup {
+  fluttertools.setup({
     ui = {
       border = "rounded",
-      notification_style = 'native'
+      notification_style = "native",
     },
     decorations = {
       statusline = {
         app_version = false,
         device = false,
         project_config = false,
-      }
+      },
     },
     debugger = {
       enabled = false,
       exception_breakpoints = {},
       evaluate_to_string_in_debug_views = true,
     },
-    flutter_path = os.getenv('HOME') .. "/develop/flutter/bin", -- <-- this takes priority over the lookup
+    flutter_path = os.getenv("HOME") .. "/develop/flutter/bin", -- <-- this takes priority over the lookup
     -- flutter_lookup_cmd = "dirname ${which flutter}", -- example "dirname $(which flutter)" or "asdf where flutter"
-    root_patterns = { ".git", "pubspec.yaml" },                 -- patterns to find the root of your flutter project
-    fvm = true,                                                 -- takes priority over path, uses <workspace>/.fvm/flutter_sdk if enabled
-    default_run_args = nil,                                     -- Default options for run command (i.e `{ flutter = "--no-version-check" }`). Configured separately for `dart run` and `flutter run`.
+    root_patterns = { ".git", "pubspec.yaml" },               -- patterns to find the root of your flutter project
+    fvm = true,                                               -- takes priority over path, uses <workspace>/.fvm/flutter_sdk if enabled
+    default_run_args = nil,                                   -- Default options for run command (i.e `{ flutter = "--no-version-check" }`). Configured separately for `dart run` and `flutter run`.
     widget_guides = {
       enabled = true,
     },
     closing_tags = {
       highlight = "Comment", -- highlight for the closing tag
-      prefix = "-- ",        -- character to use for close tag e.g. > Widget
-      priority = 10,         -- priority of virtual text in current line
+      prefix = "-- ",     -- character to use for close tag e.g. > Widget
+      priority = 10,      -- priority of virtual text in current line
       -- consider to configure this when there is a possibility of multiple virtual text items in one line
       -- see `priority` option in |:help nvim_buf_set_extmark| for more info
-      enabled = true -- set to false to disable
+      enabled = true, -- set to false to disable
     },
     dev_log = {
       enabled = true,
@@ -470,16 +471,16 @@ function M.setup()
       -- takes a log_line as string argument; returns a boolean or nil;
       -- the log_line is only added to the output if the function returns true
       notify_errors = false, -- if there is an error whilst running then notify the user
-      open_cmd = "15split",  -- command to use to open the log buffer
-      focus_on_open = true,  -- focus on the newly opened log window
+      open_cmd = "15split", -- command to use to open the log buffer
+      focus_on_open = true, -- focus on the newly opened log window
     },
     dev_tools = {
-      autostart = false,         -- autostart devtools server if not detected
+      autostart = false,      -- autostart devtools server if not detected
       auto_open_browser = false, -- Automatically opens devtools in the browser
     },
     outline = {
       open_cmd = "30vnew", -- command to use to open the outline buffer
-      auto_open = false    -- if true this will open the outline automatically when it is first populated
+      auto_open = false, -- if true this will open the outline automatically when it is first populated
     },
     lsp = {
       color = { -- show the derived colours for dart variables
@@ -496,18 +497,17 @@ function M.setup()
         showTodos = true,
         completeFunctionCalls = true,
         analysisExcludedFolders = {
-          '**/build/**',
-          '**/dart_tool/**',
-          '**/.pub-cache',
-          '**/node_modules/**',
+          "**/build/**",
+          "**/dart_tool/**",
+          "**/.pub-cache",
+          "**/node_modules/**",
         },
         renameFilesWithClasses = "prompt", -- "always"
         enableSnippets = true,
-        updateImportsOnRename = true,      -- Whether to update imports and other directives when files are renamed. Required for `FlutterRename` command.
-      }
-    }
-  }
-
+        updateImportsOnRename = true,  -- Whether to update imports and other directives when files are renamed. Required for `FlutterRename` command.
+      },
+    },
+  })
 
   -- Setup autocmd untuk start LSP berdasarkan filetype
   vim.api.nvim_create_autocmd("FileType", {
@@ -534,7 +534,7 @@ function M.setup()
   })
 
   -- Setup null-ls (untuk linters dan formatters) jika ada
-  local null_ls_ok, null_ls = pcall(require, 'null-ls')
+  local null_ls_ok, null_ls = pcall(require, "null-ls")
   if null_ls_ok then
     local formatting = null_ls.builtins.formatting
     local diagnostics = null_ls.builtins.diagnostics
@@ -543,18 +543,18 @@ function M.setup()
     null_ls.setup({
       sources = {
         -- Formatting
-        formatting.stylua,         -- Lua
+        formatting.stylua,     -- Lua
         formatting.prettier.with({ -- JavaScript, TypeScript, CSS, etc
-          extra_args = { "--single-quote", "--jsx-single-quote" }
+          extra_args = { "--single-quote", "--jsx-single-quote" },
         }),
-        formatting.black,   -- Python
-        formatting.isort,   -- Python import sorting
+        formatting.black, -- Python
+        formatting.isort, -- Python import sorting
         formatting.rustfmt, -- Rust
-        formatting.shfmt,   -- Shell script
+        formatting.shfmt, -- Shell script
 
         -- Diagnostics
-        diagnostics.eslint_d,   -- JavaScript/TypeScript
-        diagnostics.flake8,     -- Python
+        diagnostics.eslint_d, -- JavaScript/TypeScript
+        diagnostics.flake8, -- Python
         diagnostics.shellcheck, -- Shell script
 
         -- Code Actions
@@ -569,12 +569,27 @@ function M.setup()
   -- Autoformat on save for various languages
   vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = {
-      "*.cpp", "*.hpp", "*.c", "*.h",
-      "*.js", "*.ts", "*.jsx", "*.tsx",
-      "*.json", "*.html", "*.css", "*.scss",
-      "*.lua", "*.py", "*.rs", "*.cs",
-      "*.sh", "*.bash", "*.dart",
-      "*.luau" },
+      "*.cpp",
+      "*.hpp",
+      "*.c",
+      "*.h",
+      "*.js",
+      "*.ts",
+      "*.jsx",
+      "*.tsx",
+      "*.json",
+      "*.html",
+      "*.css",
+      "*.scss",
+      "*.lua",
+      "*.py",
+      "*.rs",
+      "*.cs",
+      "*.sh",
+      "*.bash",
+      "*.dart",
+      "*.luau",
+    },
     callback = function(args)
       -- Skip jika filetype adalah vim
       local filetype = vim.bo[args.buf].filetype
@@ -583,13 +598,13 @@ function M.setup()
       end
 
       if filetype == "luau" then
-        local filepath = vim.fn.expand('%:p')
-        vim.cmd('w!')
+        local filepath = vim.fn.expand("%:p")
+        vim.cmd("w!")
 
-        local cmd = vim.cmd('!stylua ' .. vim.fn.shellescape(filepath))
+        local cmd = vim.cmd("!stylua " .. vim.fn.shellescape(filepath))
         vim.fn.system(cmd)
 
-        vim.cmd('e!')
+        vim.cmd("e!")
         return
       end
 
@@ -598,17 +613,21 @@ function M.setup()
   })
 
   -- Setup Comment plugin
-  local comment_ok, comment = pcall(require, 'Comment')
+  local comment_ok, comment = pcall(require, "Comment")
   if comment_ok then
     comment.setup()
 
     -- Comment keybindings
-    vim.keymap.set('n', '<C-c>', function()
-      require('Comment.api').toggle.linewise.current()
+    vim.keymap.set("n", "<C-c>", function()
+      require("Comment.api").toggle.linewise.current()
     end, { noremap = true, silent = true })
 
-    vim.keymap.set('v', '<C-c>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-      { noremap = true, silent = true })
+    vim.keymap.set(
+      "v",
+      "<C-c>",
+      "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+      { noremap = true, silent = true }
+    )
 
     print("   • Comment setup complete")
   else
@@ -616,9 +635,9 @@ function M.setup()
   end
 
   -- Mason commands
-  vim.keymap.set('n', '<leader>m', '<cmd>Mason<CR>', { desc = 'Open Mason' })
-  vim.keymap.set('n', '<leader>mi', '<cmd>MasonInstall<CR>', { desc = 'Mason Install' })
-  vim.keymap.set('n', '<leader>mu', '<cmd>MasonUpdate<CR>', { desc = 'Mason Update' })
+  vim.keymap.set("n", "<leader>m", "<cmd>Mason<CR>", { desc = "Open Mason" })
+  vim.keymap.set("n", "<leader>mi", "<cmd>MasonInstall<CR>", { desc = "Mason Install" })
+  vim.keymap.set("n", "<leader>mu", "<cmd>MasonUpdate<CR>", { desc = "Mason Update" })
 
   print("   • Mason setup complete")
   print(" ✔ LSP configuration loaded successfully (using native vim.lsp.start)")
